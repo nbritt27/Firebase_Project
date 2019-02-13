@@ -75,3 +75,15 @@ body {
 .login-box {
   margin: 100px;
 }
+#topbar{
+  margin: 30px;
+  padding: 15px;
+  background-color: lightgreen;
+  top: 100px;
+  right: 50px;
+  width: 320px;
+  height: 130px;
+}
+
+#firebaseui-auth-container{
+}
