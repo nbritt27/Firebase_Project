@@ -29,7 +29,7 @@
      signInOptions: [
       // Specify providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID
+      //firebase.auth.EmailAuthProvider.PROVIDER_ID
      ],
      // Terms of service url can be specified and will show up in the widget.
      tosUrl: '<your-tos-url>'
@@ -45,8 +45,11 @@
       <nav class="nav-login">
       <ul>
         <li><a href="#">Test</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Connect</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><div id="firebaseui-auth-container"></div></li>
       </ul>
     </nav>
-    <div id="firebaseui-auth-container"></div>
   </body>
  </html>
