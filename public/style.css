@@ -39,6 +39,10 @@ body {
   color: #999;
 }
 
+.nav-login ul li a:hover {
+  color: #999;
+}
+
 .nav-login {
   position: fixed;
   top: 0;
@@ -70,6 +74,7 @@ body {
   color: #333;
   font-family:
   arial; font-size: 16px;
+  padding: 0px 15px;
 }
 
 .login-box {
