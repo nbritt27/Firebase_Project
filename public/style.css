@@ -104,5 +104,20 @@ body {
 }
 */
 #firebaseui-auth-container{
-  margin-top: -8%;
+  margin-top: -5px;
+}
+
+.auth-box {
+  height: 85px;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
+  background-color: white;
+}
+
+.auth-box h1 {
+  text-align: center;
+  padding-top: 10px;
+  font-weight: normal;
 }
