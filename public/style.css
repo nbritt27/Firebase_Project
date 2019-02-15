@@ -12,7 +12,18 @@ body {
   flex-wrap: wrap;
   z-index: 1000;
 }
-
+#user-pic {
+  top: -3px;
+  position: absolute;
+  display: inline-block;
+  /*background-image: url('/images/profile_placeholder.png');
+  */
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  background-size: 40px;
+  border-radius: 20px;
+}
 .nav-main ul {
   display: flex;
   flex-wrap: wrap;
