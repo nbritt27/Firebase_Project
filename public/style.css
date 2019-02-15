@@ -106,8 +106,14 @@ body {
   margin-top: -5px;
 }
 
+.auth-box-container {
+  left: 0px;
+  width: 50%;
+  position: absolute;
+}
+
 .auth-box {
-  height: 85px;
+  height: 100px;
   width: 300px;
   margin-left: auto;
   margin-right: auto;
@@ -118,5 +124,18 @@ body {
 .auth-box h1 {
   text-align: center;
   padding-top: 10px;
-  font-weight: normal;
+  font-family: 'Raleway', sans-serif;
+  font-weight: lighter;
+  font-size: 30px;
+}
+
+.picture-box {
+  right: 0px;
+  width: 50%;
+  position: absolute;
+}
+
+.picture-box img {
+  height: auto;
+  max-width: 100%;
 }
