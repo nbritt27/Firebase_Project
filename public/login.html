@@ -36,11 +36,15 @@
             var uid = user.uid;
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
+            var userAge=user.age;
+            var userBio=user.bio
             this.userPic.src = photoURL;
             database.ref().child('users'+uid).set({
             username: displayName,
             email: email,
-            profile_picture : photoURL
+            profile_picture : photoURL,
+            age: userAge,
+            bio: userBio
   });
             console.log("Trying to add the data");
             user.getIdToken().then(function(accessToken) {
@@ -72,18 +76,25 @@
 
       window.addEventListener('load', function() {
         initApp()
+        console.log(document.getElementById("ageText").value);
       });
       function updateProfile(){
         console.log("Trying to store age");
-        firebase.database().ref().child('users'+userRef.uid).update({
-          age: document.getElementById("ageText").value
+        if(document.getElementById("ageText").value!=null){
 
-        });
-        firebase.database().ref().child('users'+userRef.uid).update({
-          bio: document.getElementById("bioText").value
+          firebase.database().ref().child('users'+userRef.uid).update({
+              age: document.getElementById("ageText").value
+          });
+        }
+        if(document.getElementById("bioText").value!=null){
 
-        });
-        
+          firebase.database().ref().child('users'+userRef.uid).update({
+
+              bio: document.getElementById("bioText").value
+            
+
+          });
+        }
       }
     </script>
   </head>
