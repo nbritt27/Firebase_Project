@@ -73,10 +73,14 @@
       window.addEventListener('load', function() {
         initApp()
       });
-      function storeAge(){
+      function updateProfile(){
         console.log("Trying to store age");
         firebase.database().ref().child('users'+userRef.uid).update({
           age: document.getElementById("ageText").value
+
+        });
+        firebase.database().ref().child('users'+userRef.uid).update({
+          bio: document.getElementById("bioText").value
 
         });
         
@@ -100,10 +104,17 @@
     <br>
     <br>
     <br>
-    <p>What is your age?</p>
+    <div id="informationUpdate">
+      <p id="ageLabel">Age:</p>
 
-    <input type="text" id="ageText" name="nickname">
-    <br>
-    <button type="button" onclick="storeAge()">Submit</button>
+      <input type="text" id="ageText" name="age">
+      <br>
+      <p id="bioLabel">Bio:</p>
+      <input type="textarea" id="bioText" name="bio">
+      <br>
+      <button type="button" onclick="updateProfile()">Submit</button>
+
+    </div>
+    
   </body>
 </html>

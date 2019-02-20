@@ -147,3 +147,28 @@ body {
   min-height: 100%;
   height: 100%;
 }
+
+#updateInformation{
+  margin: 10px;
+  padding: 10px;
+}
+#bioText, #ageText{
+  margin: 10px;
+}
+#ageLabel, #bioLabel{
+  margin: 10px;
+  text-decoration: none;
+  font-family: "Arial", Helvetica, sans-serif;
+}
+button{
+  background-color: orangered;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+}
