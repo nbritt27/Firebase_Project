@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Home Tab</title>
+    <link rel="stylesheet" href="resetstyle.css">
+    <link rel="stylesheet" href="home.css">
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script>
+            // Initialize Firebase
+            var config = {
+              apiKey: "AIzaSyDsmkVyaN9_BhUnzUjqtilAM8FDr1Ccndo",
+              authDomain: "test-project-a8dd5.firebaseapp.com",
+              databaseURL: "https://test-project-a8dd5.firebaseio.com",
+              projectId: "test-project-a8dd5",
+              storageBucket: "test-project-a8dd5.appspot.com",
+              messagingSenderId: "1066619119347"
+            };
+            firebase.initializeApp(config);
+          </script>
+     <script type="text/javascript">
+       var userRef;
+       initApp = function() {
+         firebase.auth().onAuthStateChanged(function(user) {
+           if (user) {
+             // User is signed in.
+             userRef=user;
+             
+             var database=firebase.database();
+             var displayName = user.displayName;
+             this.userPic = document.getElementById('user-pic');
+ 
+             var email = user.email;
+             var emailVerified = user.emailVerified;
+             var photoURL = user.photoURL;
+             var uid = user.uid;
+             var phoneNumber = user.phoneNumber;
+             var providerData = user.providerData;
+             var userAge=user.age;
+             var userBio=user.bio
+             this.userPic.src = photoURL;
+             database.ref().child('users'+uid).set({
+             username: displayName,
+             email: email,
+             profile_picture : photoURL,
+             age: userAge,
+             bio: userBio
+   });
+             console.log("Trying to add the data");
+             user.getIdToken().then(function(accessToken) {
+               document.getElementById('sign-in-status').textContent = 'Signed in';
+               document.getElementById('sign-in').textContent = 'Sign out';
+               document.getElementById('account-details').textContent = JSON.stringify({
+                 displayName: displayName,
+                 email: email,
+                 emailVerified: emailVerified,
+                 phoneNumber: phoneNumber,
+                 photoURL: photoURL,
+                 uid: uid,
+                 accessToken: accessToken,
+                 providerData: providerData
+               }, null, '  ');
+             });
+ 
+   
+           } else {
+             // User is signed out.
+             document.getElementById('sign-in-status').textContent = 'Signed out';
+             document.getElementById('sign-in').textContent = 'Sign in';
+             document.getElementById('account-details').textContent = 'null';
+           }
+         }, function(error) {
+           console.log(error);
+         });
+       };
+ 
+       window.addEventListener('load', function() {
+         initApp()
+         console.log(document.getElementById("ageText").value);
+       });
+       function addPost(){
+         console.log("Trying to add post");
+         
+       }
+     </script>
+</head>
+<body>
+    <nav class="nav-login">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="groups.html">Groups</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="login.html">Profile</a></li>
+        
+                <li><div id="firebaseui-auth-container"></div></li>
+                <li><div><img id="user-pic" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div></li>
+            </ul>
+            </nav>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p>This is the home tab</p>
+    <button type="button" onclick="addPost()">Add Post</button>
+</body>
+</html>
