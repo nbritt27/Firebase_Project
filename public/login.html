@@ -19,10 +19,13 @@
            firebase.initializeApp(config);
          </script>
     <script type="text/javascript">
+      var userRef;
       initApp = function() {
         firebase.auth().onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
+            userRef=user;
+            
             var database=firebase.database();
             var displayName = user.displayName;
             this.userPic = document.getElementById('user-pic');
@@ -70,8 +73,13 @@
       window.addEventListener('load', function() {
         initApp()
       });
-      function storeNickname(){
-        document.getElementById("myText").value
+      function storeAge(){
+        console.log("Trying to store age");
+        firebase.database().ref().child('users'+userRef.uid).update({
+          age: document.getElementById("ageText").value
+
+        });
+        
       }
     </script>
   </head>
@@ -94,8 +102,8 @@
     <br>
     <p>What is your age?</p>
 
-    <input type="text" id="nicknameText" name="nickname">
+    <input type="text" id="ageText" name="nickname">
     <br>
-    <button type="button" onclick="storeNickname()">Submit</button>
+    <button type="button" onclick="storeAge()">Submit</button>
   </body>
 </html>
