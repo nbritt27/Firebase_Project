@@ -13,6 +13,7 @@ body {
   flex-wrap: wrap;
   z-index: 1000;
 }
+
 #user-pic {
   top: -3px;
   position: absolute;

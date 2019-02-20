@@ -1,0 +1,47 @@
+#firebaseui-auth-container{
+  margin-top: -5px;
+}
+
+.auth-box-container {
+  left: 0px;
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  background-image: linear-gradient(white, grey);
+}
+
+.auth-box {
+  height: 100px;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.auth-box h1 {
+  text-align: center;
+  padding-top: 10px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: lighter;
+  font-size: 30px;
+}
+
+.picture-box {
+  right: 0px;
+  width: 40%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.picture-box img {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+  height: 100%;
+}
