@@ -78,9 +78,65 @@
          initApp()
          console.log(document.getElementById("ageText").value);
        });
+
+
+
+        function writeNewPost(uid, uname, pic, heading, text) {
+            console.log("Trying to write new post");
+
+            // A post entry.
+            
+            var postData = {
+                author: uname,
+                uid: uid,
+                body: text,
+                title: heading,
+                starCount: 0,
+            };
+/*
+            // Get a key for a new Post.
+            var newPostKey = firebase.database().ref().child('posts').push().key;
+
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            var updates = {};
+            updates['/posts/' + newPostKey] = postData;
+            updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+*/
+            firebase.database().ref().child('posts').update(postData);
+            
+        }
+
+
+
        function addPost(){
          console.log("Trying to add post");
+         var titleLabel=document.createElement("h3");
+         titleLabel.innerHTML="Title: "
+         document.body.appendChild(titleLabel);
+         titleLabel.id="titleLabel";
+
+         var titleText=document.createElement("input");
+         document.body.appendChild(titleText);
+         titleText.id="titleText";
+
+         var bodyLabel=document.createElement("h3");
+         bodyLabel.innerHTML="Body: "
+         document.body.appendChild(bodyLabel);
+         bodyLabel.id="bodyLabel";
+
+         var bodyText=document.createElement("input");
+         document.body.appendChild(bodyText);
+         bodyText.id="bodyText";
+
+         var submitButton=document.createElement("button");
+         submitButton.innerHTML="Post";
+         document.body.appendChild(submitButton);
+
+         submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.email, userRef.profile_picture, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
+        
+         submitButton.id="submitButton";
          
+
        }
      </script>
 </head>
@@ -105,5 +161,6 @@
     <br>
     <p>This is the home tab</p>
     <button type="button" onclick="addPost()">Add Post</button>
+    <br>
 </body>
 </html>
