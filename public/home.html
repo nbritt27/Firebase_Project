@@ -46,7 +46,7 @@
              age: userAge,
              bio: userBio
    });
-             console.log("Trying to add the data");
+             //console.log("Trying to add the data");
              user.getIdToken().then(function(accessToken) {
                document.getElementById('sign-in-status').textContent = 'Signed in';
                document.getElementById('sign-in').textContent = 'Sign out';
@@ -61,6 +61,7 @@
                  providerData: providerData
                }, null, '  ');
              });
+
  
    
            } else {
@@ -69,21 +70,83 @@
              document.getElementById('sign-in').textContent = 'Sign in';
              document.getElementById('account-details').textContent = 'null';
            }
+
          }, function(error) {
            console.log(error);
          });
+         
+
        };
- 
+
        window.addEventListener('load', function() {
-         initApp()
-         console.log(document.getElementById("ageText").value);
+         
+         initApp();
+
+    
+
+         //console.log(document.getElementById("ageText").value);
        });
 
+        function loadFeed(){
+            console.log("running loadFeed");
+            removeFeedNodes();
+            var leadsRef = firebase.database().ref().child('posts');
+              leadsRef.on('value', function(snapshot) {
+              snapshot.forEach(function(childSnapshot) {
+              var childData = childSnapshot.val();
+              console.log(childData);
+              var postDiv=document.createElement('div');
+              postDiv.id="postdiv";
+              
+              var userLabel=document.createElement("h2");
+              userLabel.id="userLabel";
+              userLabel.innerHTML=childData["author"];
+              postDiv.appendChild(userLabel);
+
+              var userPicture=document.createElement("img");
+              userPicture.id="user-feed-pic";
+              userPicture.src=childData["picturesrc"];
+              postDiv.appendChild(userPicture);
 
 
+              var titleText=document.createElement("h1");
+              titleText.id="titleElement";
+              titleText.innerHTML=childData["title"];
+              postDiv.appendChild(titleText);
+              
+              var bodyText=document.createElement("p");
+              bodyText.id="bodyElement";
+              bodyText.innerHTML=childData["body"];
+              postDiv.appendChild(bodyText);
+              document.body.appendChild(postDiv);
+
+              //console.log(childData["body"])
+            });
+          });
+          }
+  
+          
+        
+        function removeFeedNodes(){
+          while(true){
+            try {
+              console.log(document.getElementById("postdiv"));
+              document.body.removeChild(document.getElementById("postdiv"));
+
+            } catch (error) {
+              break;
+            }
+          }
+          
+
+        }
         function writeNewPost(uid, uname, pic, heading, text) {
-            console.log("Trying to write new post");
-
+            //console.log("Trying to write new post");
+            document.body.removeChild(document.getElementById("titleLabel"));
+            document.body.removeChild(document.getElementById("titleText"));
+            document.body.removeChild(document.getElementById("bodyLabel"));
+            document.body.removeChild(document.getElementById("bodyText"));
+            document.body.removeChild(document.getElementById("submitButton"));
             // A post entry.
             
             var postData = {
@@ -91,9 +154,10 @@
                 uid: uid,
                 body: text,
                 title: heading,
-                starCount: 0,
+                date: new Date(),
+                picturesrc: pic
             };
-/*
+
             // Get a key for a new Post.
             var newPostKey = firebase.database().ref().child('posts').push().key;
 
@@ -101,15 +165,18 @@
             var updates = {};
             updates['/posts/' + newPostKey] = postData;
             updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-*/
-            firebase.database().ref().child('posts').update(postData);
-            
+
+            firebase.database().ref().child('posts/'+newPostKey).update(postData);
+            firebase.database().ref().child('user-posts/'+uid+'/'+newPostKey).update(postData);
+            removeFeedNodes();
+
         }
 
 
 
        function addPost(){
-         console.log("Trying to add post");
+         
+         //console.log("Trying to add post");
          var titleLabel=document.createElement("h3");
          titleLabel.innerHTML="Title: "
          document.body.appendChild(titleLabel);
@@ -132,11 +199,9 @@
          submitButton.innerHTML="Post";
          document.body.appendChild(submitButton);
 
-         submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.email, userRef.profile_picture, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
+         submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.email, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
         
          submitButton.id="submitButton";
-         
-
        }
      </script>
 </head>
@@ -159,8 +224,8 @@
     <br>
     <br>
     <br>
-    <p>This is the home tab</p>
     <button type="button" onclick="addPost()">Add Post</button>
+    <button type="button" onclick="loadFeed()">Refresh Feed</button>
     <br>
 </body>
 </html>
