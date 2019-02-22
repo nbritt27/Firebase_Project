@@ -25,11 +25,11 @@
            if (user) {
              // User is signed in.
              userRef=user;
-             
+
              var database=firebase.database();
              var displayName = user.displayName;
              this.userPic = document.getElementById('user-pic');
- 
+
              var email = user.email;
              var emailVerified = user.emailVerified;
              var photoURL = user.photoURL;
@@ -62,8 +62,8 @@
                }, null, '  ');
              });
 
- 
-   
+
+
            } else {
              // User is signed out.
              document.getElementById('sign-in-status').textContent = 'Signed out';
@@ -74,12 +74,12 @@
          }, function(error) {
            console.log(error);
          });
-         
+
 
        };
 
        window.addEventListener('load', function() {
-         
+
          initApp();
 
         loadFeed();
@@ -90,44 +90,57 @@
         function loadFeed(){
             console.log("running loadFeed");
             removeFeedNodes();
+
+            var postContainer = document.getElementById("postContainer");
+
             var leadsRef = firebase.database().ref().child('posts');
-              leadsRef.on('value', function(snapshot) {
-                removeFeedNodes();
+            leadsRef.on('value', function(snapshot) {
+              removeFeedNodes();
               snapshot.forEach(function(childSnapshot) {
-              var childData = childSnapshot.val();
-              console.log(childData);
-              var postDiv=document.createElement('div');
-              postDiv.id="postdiv";
-              
-              var userLabel=document.createElement("h2");
-              userLabel.id="userLabel";
-              userLabel.innerHTML=childData["author"];
-              postDiv.appendChild(userLabel);
+                var childData = childSnapshot.val();
+                console.log(childData);
+                var postDiv=document.createElement('div');
+                postDiv.id="postDiv";
 
-              var userPicture=document.createElement("img");
-              userPicture.id="user-feed-pic";
-              userPicture.src=childData["picturesrc"];
-              postDiv.appendChild(userPicture);
+                var userInfo = document.createElement("div");
+                userInfo.id = "userInfo";
+                postDiv.appendChild(userInfo);
 
+                var postData = document.createElement("div");
+                postData.id = "postData";
+                postDiv.appendChild(postData);
 
-              var titleText=document.createElement("h1");
-              titleText.id="titleElement";
-              titleText.innerHTML=childData["title"];
-              postDiv.appendChild(titleText);
-              
-              var bodyText=document.createElement("p");
-              bodyText.id="bodyElement";
-              bodyText.innerHTML=childData["body"];
-              postDiv.appendChild(bodyText);
-              document.body.appendChild(postDiv);
+                var userPicture=document.createElement("img");
+                userPicture.id="user-feed-pic";
+                userPicture.src=childData["picturesrc"];
+                userInfo.appendChild(userPicture);
+
+                var userLabel=document.createElement("h2");
+                userLabel.id="userLabel";
+                userLabel.innerHTML=childData["author"];
+                userInfo.appendChild(userLabel);
+
+                var titleText=document.createElement("h1");
+                titleText.id="titleElement";
+                titleText.innerHTML=childData["title"];
+                postData.appendChild(titleText);
+
+                var bodyText=document.createElement("p");
+                bodyText.id="bodyElement";
+                bodyText.innerHTML=childData["body"];
+                postData.appendChild(bodyText);
+                document.body.appendChild(postDiv);
+                postContainer.appendChild(postDiv);
+                document.body.appendChild(postContainer);
+
 
               //console.log(childData["body"])
+              });
             });
-          });
           }
-  
-          
-        
+
+
+
         function removeFeedNodes(){
           while(true){
             try {
@@ -138,7 +151,7 @@
               break;
             }
           }
-          
+
 
         }
         function writeNewPost(uid, uname, pic, heading, text) {
@@ -149,7 +162,7 @@
             document.body.removeChild(document.getElementById("bodyText"));
             document.body.removeChild(document.getElementById("submitButton"));
             // A post entry.
-            
+
             var postData = {
                 author: uname,
                 uid: uid,
@@ -176,7 +189,7 @@
 
 
        function addPost(){
-         
+
          //console.log("Trying to add post");
          var titleLabel=document.createElement("h3");
          titleLabel.innerHTML="Title: "
@@ -201,7 +214,7 @@
          document.body.appendChild(submitButton);
 
          submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.email, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
-        
+
          submitButton.id="submitButton";
        }
      </script>
@@ -213,7 +226,7 @@
                 <li><a href="groups.html">Groups</a></li>
                 <li><a href="#">Contact</a></li>
                 <li><a href="login.html">Profile</a></li>
-        
+
                 <li><div id="firebaseui-auth-container"></div></li>
                 <li><div><img id="user-pic" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div></li>
             </ul>
@@ -227,6 +240,6 @@
     <br>
     <button type="button" onclick="addPost()">Add Post</button>
     <button type="button" onclick="loadFeed()">Refresh Feed</button>
-    <br>
+    <div id="postContainer"></div>
 </body>
 </html>
