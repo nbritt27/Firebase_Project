@@ -82,7 +82,7 @@
          
          initApp();
 
-    
+        loadFeed();
 
          //console.log(document.getElementById("ageText").value);
        });
@@ -92,6 +92,7 @@
             removeFeedNodes();
             var leadsRef = firebase.database().ref().child('posts');
               leadsRef.on('value', function(snapshot) {
+                removeFeedNodes();
               snapshot.forEach(function(childSnapshot) {
               var childData = childSnapshot.val();
               console.log(childData);
