@@ -20,6 +20,7 @@
          </script>
     <script type="text/javascript">
       var userRef;
+      var userUID;
       initApp = function() {
         firebase.auth().onAuthStateChanged(function(user) {
           if (user) {
@@ -29,16 +30,18 @@
             var database=firebase.database();
             var displayName = user.displayName;
             this.userPic = document.getElementById('user-pic');
-
+            this.userInformationPic = document.getElementById('user-pic-information');
             var email = user.email;
             var emailVerified = user.emailVerified;
             var photoURL = user.photoURL;
             var uid = user.uid;
+            userUID=uid;
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
             var userAge=user.age;
             var userBio=user.bio
             this.userPic.src = photoURL;
+            this.userInformationPic.src=photoURL;
             database.ref().child('users'+uid).set({
             username: displayName,
             email: email,
@@ -77,6 +80,7 @@
       window.addEventListener('load', function() {
         initApp()
         console.log(document.getElementById("ageText").value);
+        loadFeed();
       });
       function updateProfile(){
         console.log("Trying to store age");
@@ -96,6 +100,61 @@
           });
         }
       }
+      function loadFeed(){
+            console.log("running loadFeed");
+            removeFeedNodes();
+          
+            var leadsRef = firebase.database().ref().child('user-posts').child(userRef.uid);
+              leadsRef.on('value', function(snapshot) {
+                removeFeedNodes();
+              snapshot.forEach(function(childSnapshot) {
+              var childData = childSnapshot.val();
+              console.log(childData);
+              var postDiv=document.createElement('div');
+              postDiv.id="postdiv";
+              
+              var userLabel=document.createElement("h2");
+              userLabel.id="userLabel";
+              userLabel.innerHTML=childData["author"];
+              postDiv.appendChild(userLabel);
+
+              var userPicture=document.createElement("img");
+              userPicture.id="user-feed-pic";
+              userPicture.src=childData["picturesrc"];
+              postDiv.appendChild(userPicture);
+
+
+              var titleText=document.createElement("h1");
+              titleText.id="titleElement";
+              titleText.innerHTML=childData["title"];
+              postDiv.appendChild(titleText);
+              
+              var bodyText=document.createElement("p");
+              bodyText.id="bodyElement";
+              bodyText.innerHTML=childData["body"];
+              postDiv.appendChild(bodyText);
+              document.body.appendChild(postDiv);
+
+              //console.log(childData["body"])
+            });
+          });
+          }
+  
+          
+        
+        function removeFeedNodes(){
+          while(true){
+            try {
+              console.log(document.getElementById("postdiv"));
+              document.body.removeChild(document.getElementById("postdiv"));
+
+            } catch (error) {
+              break;
+            }
+          }
+          
+
+        }
     </script>
   </head>
   <body>
@@ -115,6 +174,23 @@
     <br>
     <br>
     <br>
+    <div id ="informationList">
+      <img id="user-pic-information" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 300px;height: 300px;background-size: 300px;border-radius: 200px; right: 10px; top: 10px;   display: block; margin-left: auto; margin-right: auto;"></div>
+      <div id="table">
+        <table id="followersTable">
+        <tr>
+          <th><h1>Followers</h1></th>
+          <th><h1>Following</h1></th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <th>0</th>
+        </tr>
+      </table>
+    </div>
+      
+      
+    </div>
     <div id="informationUpdate">
       <p id="ageLabel">Age:</p>
 
@@ -124,7 +200,7 @@
       <input type="textarea" id="bioText" name="bio">
       <br>
       <button type="button" onclick="updateProfile()">Submit</button>
-
+      <button type="button" onclick="loadFeed()">Load Posts</button>
     </div>
 
   </body>

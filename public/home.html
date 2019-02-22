@@ -95,7 +95,7 @@
                 removeFeedNodes();
               snapshot.forEach(function(childSnapshot) {
               var childData = childSnapshot.val();
-              console.log(childData);
+              //console.log(childData);
               var postDiv=document.createElement('div');
               postDiv.id="postdiv";
               
@@ -131,7 +131,7 @@
         function removeFeedNodes(){
           while(true){
             try {
-              console.log(document.getElementById("postdiv"));
+              //console.log(document.getElementById("postdiv"));
               document.body.removeChild(document.getElementById("postdiv"));
 
             } catch (error) {
