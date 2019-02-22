@@ -12,6 +12,7 @@ body {
 }
 th,td{
   padding: 10px;
+  font-size: 32px;
 
 }
 #informationList{
@@ -24,7 +25,6 @@ h1{
   display: block; 
   margin-left: auto; 
   margin-right: auto;
-  font-size: 32px;
 }
 #titleLabel, #titleText, #bodyLabel, #bodyText{
   margin: 10px;
@@ -79,6 +79,41 @@ h1{
 }
 #userLabel{
   float: left;
+}
+
+#postContainer{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: auto auto;
+  grid-auto-flow: column;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#userInfo{
+  width: 25%;
+}
+
+#userInfo img{
+  float: right;
+}
+
+#postData{
+  width: 75%;
+}
+
+#postDiv{
+  color: #333;
+  background-color: white;
+  font-family: arial;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 2px solid gray;
+  width: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  display: grid;
+  grid-template-columns: auto auto;
 }
 #user-feed-pic{
   top: -3px;

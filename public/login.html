@@ -103,37 +103,41 @@
       function loadFeed(){
             console.log("running loadFeed");
             removeFeedNodes();
-          
+            var postContainer = document.getElementById("postContainer");
+
             var leadsRef = firebase.database().ref().child('user-posts').child(userRef.uid);
               leadsRef.on('value', function(snapshot) {
                 removeFeedNodes();
               snapshot.forEach(function(childSnapshot) {
-              var childData = childSnapshot.val();
-              console.log(childData);
-              var postDiv=document.createElement('div');
-              postDiv.id="postdiv";
-              
-              var userLabel=document.createElement("h2");
-              userLabel.id="userLabel";
-              userLabel.innerHTML=childData["author"];
-              postDiv.appendChild(userLabel);
-
-              var userPicture=document.createElement("img");
-              userPicture.id="user-feed-pic";
-              userPicture.src=childData["picturesrc"];
-              postDiv.appendChild(userPicture);
-
-
-              var titleText=document.createElement("h1");
-              titleText.id="titleElement";
-              titleText.innerHTML=childData["title"];
-              postDiv.appendChild(titleText);
-              
-              var bodyText=document.createElement("p");
-              bodyText.id="bodyElement";
-              bodyText.innerHTML=childData["body"];
-              postDiv.appendChild(bodyText);
-              document.body.appendChild(postDiv);
+                var childData = childSnapshot.val();
+                console.log(childData);
+                var postDiv=document.createElement('div');
+                postDiv.id="postDiv";
+                var userInfo = document.createElement("div");
+                userInfo.id = "userInfo";
+                postDiv.appendChild(userInfo);
+                var postData = document.createElement("div");
+                postData.id = "postData";
+                postDiv.appendChild(postData);
+                var userPicture=document.createElement("img");
+                userPicture.id="user-feed-pic";
+                userPicture.src=childData["picturesrc"];
+                userInfo.appendChild(userPicture);
+                var userLabel=document.createElement("h2");
+                userLabel.id="userLabel";
+                userLabel.innerHTML=childData["author"];
+                userInfo.appendChild(userLabel);
+                var titleText=document.createElement("h1");
+                titleText.id="titleElement";
+                titleText.innerHTML=childData["title"];
+                postData.appendChild(titleText);
+                var bodyText=document.createElement("p");
+                bodyText.id="bodyElement";
+                bodyText.innerHTML=childData["body"];
+                postData.appendChild(bodyText);
+                document.body.appendChild(postDiv);
+                postContainer.appendChild(postDiv);
+                document.body.appendChild(postContainer);
 
               //console.log(childData["body"])
             });
@@ -202,6 +206,8 @@
       <button type="button" onclick="updateProfile()">Submit</button>
       <button type="button" onclick="loadFeed()">Load Posts</button>
     </div>
+    <div id="postContainer"></div>
+
 
   </body>
 </html>
