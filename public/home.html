@@ -25,9 +25,11 @@
            if (user) {
              // User is signed in.
              userRef=user;
+             
              var database=firebase.database();
              var displayName = user.displayName;
              this.userPic = document.getElementById('user-pic');
+ 
              var email = user.email;
              var emailVerified = user.emailVerified;
              var photoURL = user.photoURL;
@@ -59,6 +61,8 @@
                  providerData: providerData
                }, null, '  ');
              });
+ 
+   
            } else {
              // User is signed out.
              document.getElementById('sign-in-status').textContent = 'Signed out';
@@ -68,8 +72,10 @@
          }, function(error) {
            console.log(error);
          });
+         
        };
        window.addEventListener('load', function() {
+         
          initApp();
         loadFeed();
          //console.log(document.getElementById("ageText").value);
@@ -77,21 +83,23 @@
         function loadFeed(){
             console.log("running loadFeed");
             removeFeedNodes();
-            var postContainer = document.getElementById("postContainer");
+            //var postContainer = document.getElementById("postContainer");
+
             var leadsRef = firebase.database().ref().child('posts');
-            leadsRef.on('value', function(snapshot) {
-              removeFeedNodes();
+              leadsRef.on('value', function(snapshot) {
+              var postContainer=document.createElement('div');
+              postContainer.id="postContainer";
               snapshot.forEach(function(childSnapshot) {
-                var childData = childSnapshot.val();
-                console.log(childData);
-                var postDiv=document.createElement('div');
+              var childData = childSnapshot.val();
+              //console.log(childData);
+
+              var postDiv=document.createElement('div');
                 postDiv.id="postDiv";
                 var userInfo = document.createElement("div");
                 userInfo.id = "userInfo";
                 postDiv.appendChild(userInfo);
                 var postData = document.createElement("div");
                 postData.id = "postData";
-                postDiv.appendChild(postData);
                 var userPicture=document.createElement("img");
                 userPicture.id="user-feed-pic";
                 userPicture.src=childData["picturesrc"];
@@ -108,22 +116,39 @@
                 bodyText.id="bodyElement";
                 bodyText.innerHTML=childData["body"];
                 postData.appendChild(bodyText);
-                document.body.appendChild(postDiv);
+                postDiv.appendChild(userInfo);
+                postDiv.appendChild(postData);
                 postContainer.appendChild(postDiv);
                 document.body.appendChild(postContainer);
-              //console.log(childData["body"])
-              });
             });
+          });
           }
+  
+          
+        
         function removeFeedNodes(){
           while(true){
+            try{
+              document.body.removeChild(document.getElementById("postContainer"));
+
+            }
+            catch(error){
+              console.log("found an error");
+              break;
+            }
+
+          }
+          /*
+          console.log("Trying to remove feeds");
+          while(true){
             try {
-              console.log(document.getElementById("postdiv"));
-              document.body.removeChild(document.getElementById("postdiv"));
+              console.log("Existing element: " + document.getElementById("postDiv"));
+              document.body.removeChild(document.getElementById("postDiv"));
             } catch (error) {
               break;
             }
           }
+          */
         }
         function writeNewPost(uid, uname, pic, heading, text) {
             //console.log("Trying to write new post");
@@ -133,6 +158,7 @@
             document.body.removeChild(document.getElementById("bodyText"));
             document.body.removeChild(document.getElementById("submitButton"));
             // A post entry.
+            
             var postData = {
                 author: uname,
                 uid: uid,
@@ -149,9 +175,10 @@
             updates['/user-posts/' + uid + '/' + newPostKey] = postData;
             firebase.database().ref().child('posts/'+newPostKey).update(postData);
             firebase.database().ref().child('user-posts/'+uid+'/'+newPostKey).update(postData);
-            removeFeedNodes();
+            location.reload();
         }
        function addPost(){
+         
          //console.log("Trying to add post");
          var titleLabel=document.createElement("h3");
          titleLabel.innerHTML="Title: "
@@ -171,6 +198,7 @@
          submitButton.innerHTML="Post";
          document.body.appendChild(submitButton);
          submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.email, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
+        
          submitButton.id="submitButton";
        }
      </script>
@@ -182,7 +210,7 @@
                 <li><a href="groups.html">Groups</a></li>
                 <li><a href="#">Contact</a></li>
                 <li><a href="login.html">Profile</a></li>
-
+        
                 <li><div id="firebaseui-auth-container"></div></li>
                 <li><div><img id="user-pic" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div></li>
             </ul>
@@ -196,6 +224,8 @@
     <br>
     <button type="button" onclick="addPost()">Add Post</button>
     <button type="button" onclick="loadFeed()">Refresh Feed</button>
+    <br>
     <div id="postContainer"></div>
+
 </body>
 </html>
