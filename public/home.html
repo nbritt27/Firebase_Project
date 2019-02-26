@@ -151,12 +151,38 @@
           }
           */
         }
+        function writeNewGroup(title, description, tag) {
+            //console.log("Trying to write new post");
+            document.body.removeChild(document.getElementById("titleLabel"));
+            document.body.removeChild(document.getElementById("titleText"));
+            document.body.removeChild(document.getElementById("bodyLabel"));
+            document.body.removeChild(document.getElementById("bodyText"));
+            document.body.removeChild(document.getElementById("tagLabel"));
+            document.body.removeChild(document.getElementById("tagText"));
+            document.body.removeChild(document.getElementById("submitButton"));
+            // A post entry.
+            
+            var postData = {
+       
+                description: description,
+                title: title,
+                tag: tag,
+                date: new Date(),
+            };
+            // Get a key for a new Post.
+            var newPostKey = firebase.database().ref().child('groups').push().key;
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            var updates = {};
+            updates['/groups/' + newPostKey] = postData;
+            firebase.database().ref().child('groups/'+newPostKey).update(postData);
+        }
         function writeNewPost(uid, uname, pic, heading, text) {
             //console.log("Trying to write new post");
             document.body.removeChild(document.getElementById("titleLabel"));
             document.body.removeChild(document.getElementById("titleText"));
             document.body.removeChild(document.getElementById("bodyLabel"));
             document.body.removeChild(document.getElementById("bodyText"));
+
             document.body.removeChild(document.getElementById("submitButton"));
             // A post entry.
             
@@ -177,6 +203,37 @@
             firebase.database().ref().child('posts/'+newPostKey).update(postData);
             firebase.database().ref().child('user-posts/'+uid+'/'+newPostKey).update(postData);
         }
+      function addGroup(){
+        //console.log("Trying to add post");
+         var titleLabel=document.createElement("h3");
+         titleLabel.innerHTML="Title: "
+         document.body.appendChild(titleLabel);
+         titleLabel.id="titleLabel";
+         var titleText=document.createElement("input");
+         document.body.appendChild(titleText);
+         titleText.id="titleText";
+         var bodyLabel=document.createElement("h3");
+         bodyLabel.innerHTML="Description: "
+         document.body.appendChild(bodyLabel);
+         bodyLabel.id="bodyLabel";
+         var bodyText=document.createElement("input");
+         document.body.appendChild(bodyText);
+         bodyText.id="bodyText";
+         var tagLabel=document.createElement("h3");
+         tagLabel.innerHTML="Tag: "
+         document.body.appendChild(tagLabel);
+         tagLabel.id="tagLabel";
+         var tagText=document.createElement("input");
+         
+         document.body.appendChild(tagText);
+         tagText.id="tagText";
+         var submitButton=document.createElement("button");
+         submitButton.innerHTML="Post";
+         document.body.appendChild(submitButton);
+         submitButton.onclick=function(){writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagText").value)};
+        
+         submitButton.id="submitButton";
+      }
        function addPost(){
          
          //console.log("Trying to add post");
@@ -224,6 +281,8 @@
     <br>
     <button type="button" onclick="addPost()">Add Post</button>
     <button type="button" onclick="loadFeed()">Refresh Feed</button>
+    <button type="button" onclick="addGroup()">Create Group</button>
+
     <br>
     <div id="postContainer"></div>
 

@@ -42,7 +42,7 @@ body {
   grid-template-columns: auto auto;
 }
 
-#titleLabel, #titleText, #bodyLabel, #bodyText{
+#titleLabel, #titleText, #bodyLabel, #bodyText, #tagText, #tagLabel{
   margin: 10px;
   font-family: arial;
   font-size: 16px;
