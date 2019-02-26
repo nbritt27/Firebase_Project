@@ -103,12 +103,16 @@
       function loadFeed(){
             console.log("running loadFeed");
             removeFeedNodes();
-            var postContainer = document.getElementById("postContainer");
+            
 
             var leadsRef = firebase.database().ref().child('user-posts').child(userRef.uid);
+                              var postContainer = document.createElement("postContainer");
+              postContainer.id="postContainer";
               leadsRef.on('value', function(snapshot) {
-                removeFeedNodes();
+               removeFeedNodes();
+
               snapshot.forEach(function(childSnapshot) {
+                removeFeedNodes();
                 var childData = childSnapshot.val();
                 console.log(childData);
                 var postDiv=document.createElement('div');
@@ -118,7 +122,6 @@
                 postDiv.appendChild(userInfo);
                 var postData = document.createElement("div");
                 postData.id = "postData";
-                postDiv.appendChild(postData);
                 var userPicture=document.createElement("img");
                 userPicture.id="user-feed-pic";
                 userPicture.src=childData["picturesrc"];
@@ -135,10 +138,10 @@
                 bodyText.id="bodyElement";
                 bodyText.innerHTML=childData["body"];
                 postData.appendChild(bodyText);
-                document.body.appendChild(postDiv);
+                postDiv.appendChild(userInfo);
+                postDiv.appendChild(postData);
                 postContainer.appendChild(postDiv);
                 document.body.appendChild(postContainer);
-
               //console.log(childData["body"])
             });
           });
@@ -146,19 +149,19 @@
   
           
         
-        function removeFeedNodes(){
+          function removeFeedNodes(){
           while(true){
-            try {
-              console.log(document.getElementById("postdiv"));
-              document.body.removeChild(document.getElementById("postdiv"));
+            try{
+              document.body.removeChild(document.getElementById("postContainer"));
 
-            } catch (error) {
+            }
+            catch(error){
+              console.log("found an error");
               break;
             }
-          }
-          
 
-        }
+          }
+          }
     </script>
   </head>
   <body>
