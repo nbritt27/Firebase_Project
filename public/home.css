@@ -20,6 +20,10 @@ body {
   margin-left: 0px;
 }
 
+#userInfo h2{
+  margin-left: 1px;
+}
+
 #postData{
   width: 75%;
 }
@@ -31,7 +35,7 @@ body {
   font-size: 16px;
   border-radius: 10px;
   border: 2px solid gray;
-  width: auto;
+  width: 24vw;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
   display: grid;
@@ -42,17 +46,6 @@ body {
   margin: 10px;
   font-family: arial;
   font-size: 16px;
-}
-
-.nav-main {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #FFF;
-  display: flex;
-  flex-wrap: wrap;
-  z-index: 1000;
 }
 
 #user-pic {
@@ -87,32 +80,6 @@ body {
 
 #bodyElement{
   text-align: center;
-}
-
-.nav-main ul {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 15px;
-}
-
-.nav-main ul li {
-  list-style: none;
-  line-height: 60px;
-}
-
-.nav-main ul li a{
-  display: block;
-  height: 100%;
-  padding: 0 10px;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #333;
-  font-family:
-  arial; font-size: 16px;
-}
-
-.nav-main ul li a:hover {
-  color: #999;
 }
 
 .nav-login ul li a:hover {
