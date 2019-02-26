@@ -87,6 +87,7 @@
 
             var leadsRef = firebase.database().ref().child('posts');
               leadsRef.on('value', function(snapshot) {
+              removeFeedNodes();
               var postContainer=document.createElement('div');
               postContainer.id="postContainer";
               snapshot.forEach(function(childSnapshot) {
@@ -175,7 +176,6 @@
             updates['/user-posts/' + uid + '/' + newPostKey] = postData;
             firebase.database().ref().child('posts/'+newPostKey).update(postData);
             firebase.database().ref().child('user-posts/'+uid+'/'+newPostKey).update(postData);
-            location.reload();
         }
        function addPost(){
          
