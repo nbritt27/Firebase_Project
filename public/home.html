@@ -25,11 +25,11 @@
            if (user) {
              // User is signed in.
              userRef=user;
-             
+
              var database=firebase.database();
              var displayName = user.displayName;
              this.userPic = document.getElementById('user-pic');
- 
+
              var email = user.email;
              var emailVerified = user.emailVerified;
              var photoURL = user.photoURL;
@@ -61,8 +61,8 @@
                  providerData: providerData
                }, null, '  ');
              });
- 
-   
+
+
            } else {
              // User is signed out.
              document.getElementById('sign-in-status').textContent = 'Signed out';
@@ -72,10 +72,10 @@
          }, function(error) {
            console.log(error);
          });
-         
+
        };
        window.addEventListener('load', function() {
-         
+
          initApp();
         loadFeed();
          //console.log(document.getElementById("ageText").value);
@@ -124,9 +124,9 @@
             });
           });
           }
-  
-          
-        
+
+
+
         function removeFeedNodes(){
           while(true){
             try{
@@ -159,7 +159,7 @@
             document.body.removeChild(document.getElementById("bodyText"));
             document.body.removeChild(document.getElementById("submitButton"));
             // A post entry.
-            
+
             var postData = {
                 author: uname,
                 uid: uid,
@@ -178,13 +178,14 @@
             firebase.database().ref().child('user-posts/'+uid+'/'+newPostKey).update(postData);
         }
        function addPost(){
-         
+
          //console.log("Trying to add post");
          var titleLabel=document.createElement("h3");
          titleLabel.innerHTML="Title: "
          document.body.appendChild(titleLabel);
          titleLabel.id="titleLabel";
          var titleText=document.createElement("input");
+         titleText.maxLength="15";
          document.body.appendChild(titleText);
          titleText.id="titleText";
          var bodyLabel=document.createElement("h3");
@@ -192,13 +193,14 @@
          document.body.appendChild(bodyLabel);
          bodyLabel.id="bodyLabel";
          var bodyText=document.createElement("input");
+         bodyText.maxLength="15";
          document.body.appendChild(bodyText);
          bodyText.id="bodyText";
          var submitButton=document.createElement("button");
          submitButton.innerHTML="Post";
          document.body.appendChild(submitButton);
          submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.email, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
-        
+
          submitButton.id="submitButton";
        }
      </script>
@@ -210,7 +212,7 @@
                 <li><a href="groups.html">Groups</a></li>
                 <li><a href="#">Contact</a></li>
                 <li><a href="login.html">Profile</a></li>
-        
+
                 <li><div id="firebaseui-auth-container"></div></li>
                 <li><div><img id="user-pic" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div></li>
             </ul>
