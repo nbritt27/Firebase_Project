@@ -84,48 +84,55 @@
             console.log("running loadFeed");
             removeFeedNodes();
             //var postContainer = document.getElementById("postContainer");
-
             var leadsRef = firebase.database().ref().child('posts');
-              leadsRef.on('value', function(snapshot) {
-              removeFeedNodes();
-              var postContainer=document.createElement('div');
-              postContainer.id="postContainer";
-              snapshot.forEach(function(childSnapshot) {
-              var childData = childSnapshot.val();
-              //console.log(childData);
+            leadsRef.on('value', function(snapshot) {
+            removeFeedNodes();
+            var postContainer=document.createElement('div');
+            postContainer.id="postContainer";
+            snapshot.forEach(function(childSnapshot) {
+            var childData = childSnapshot.val();
+            //console.log(childData);
 
-              var postDiv=document.createElement('div');
-                postDiv.id="postDiv";
-                var userInfo = document.createElement("div");
-                userInfo.id = "userInfo";
-                postDiv.appendChild(userInfo);
-                var postData = document.createElement("div");
-                postData.id = "postData";
-                var userPicture=document.createElement("img");
-                userPicture.id="user-feed-pic";
-                userPicture.src=childData["picturesrc"];
-                userInfo.appendChild(userPicture);
-                var userLabel=document.createElement("h2");
-                userLabel.id="userLabel";
-                userLabel.innerHTML=childData["author"];
-                userInfo.appendChild(userLabel);
-                var titleText=document.createElement("h1");
-                titleText.id="titleElement";
-                titleText.innerHTML=childData["title"];
-                postData.appendChild(titleText);
-                var bodyText=document.createElement("p");
-                bodyText.id="bodyElement";
-                bodyText.innerHTML=childData["body"];
-                postData.appendChild(bodyText);
-                postDiv.appendChild(userInfo);
-                postDiv.appendChild(postData);
-                postContainer.appendChild(postDiv);
-                document.body.appendChild(postContainer);
+            var postDiv=document.createElement('div');
+            postDiv.id="postDiv";
+            var userInfo = document.createElement("div");
+            userInfo.id = "userInfo";
+            postDiv.appendChild(userInfo);
+            var postData = document.createElement("div");
+            postData.id = "postData";
+            var userPicture=document.createElement("img");
+            userPicture.id="user-feed-pic";
+            userPicture.src=childData["picturesrc"];
+            userInfo.appendChild(userPicture);
+            var userLabel=document.createElement("h2");
+            userLabel.id="userLabel";
+            userLabel.innerHTML=childData["author"];
+            userInfo.appendChild(userLabel);
+            var titleText=document.createElement("h1");
+            titleText.id="titleElement";
+            titleText.innerHTML=childData["title"];
+            postData.appendChild(titleText);
+            var bodyText=document.createElement("p");
+            bodyText.id="bodyElement";
+            bodyText.innerHTML=childData["body"];
+            var postedDate = document.createElement("p");
+            postedDate.id="datePosted";
+            postedDate.innerHTML=parseDate(childData["date"]).getYear();
+            userInfo.appendChild(postedDate);
+            postData.appendChild(bodyText);
+            postDiv.appendChild(userInfo);
+            postDiv.appendChild(postData);
+            postContainer.appendChild(postDiv);
+            document.body.appendChild(postContainer);
             });
           });
           }
 
-
+        function parseDate(input) {
+          var parts = input.match(/(\d+)/g);
+          // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+          return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+  }
 
         function removeFeedNodes(){
           while(true){
@@ -251,7 +258,7 @@
            document.body.appendChild(titleLabel);
            titleLabel.id="titleLabel";
            var titleText=document.createElement("input");
-           titleText.maxLength="15";
+           titleText.maxLength="30";
            document.body.appendChild(titleText);
            titleText.id="titleText";
            var bodyLabel=document.createElement("h3");
@@ -259,7 +266,7 @@
            document.body.appendChild(bodyLabel);
            bodyLabel.id="bodyLabel";
            var bodyText=document.createElement("input");
-           bodyText.maxLength="15";
+           bodyText.maxLength="280";
            document.body.appendChild(bodyText);
            bodyText.id="bodyText";
            var submitButton=document.createElement("button");

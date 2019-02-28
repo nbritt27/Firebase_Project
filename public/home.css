@@ -12,20 +12,25 @@ body {
 }
 
 #userInfo{
-  width: 25%;
+  width: auto;
+  height: 60px;
+  background-color: #e1e1e1;
+  border-radius: 10px;
+  border: 1px solid white;
 }
 
 #userInfo img{
   float: left;
-  margin-left: 0px;
+  margin: 10px 10px;
 }
 
 #userInfo h2{
-  margin-left: 1px;
+  margin: 20px 0;
 }
 
 #postData{
-  width: 75%;
+  width: auto;
+  margin: 5px;
 }
 
 #postDiv{
@@ -60,6 +65,7 @@ body {
   background-size: 40px;
   border-radius: 20px;
 }
+
 #userLabel{
   float: left;
 }
