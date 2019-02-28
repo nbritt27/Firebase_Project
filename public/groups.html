@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Groups</title>
     <link rel="stylesheet" href="resetstyle.css">
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="groups.css">
     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
     <script>
             // Initialize Firebase
@@ -75,13 +75,71 @@
        };
 
        window.addEventListener('load', function() {
-         initApp()
-         console.log(document.getElementById("ageText").value);
+         initApp();
+         loadGroups();
        });
-       function addPost(){
-         console.log("Trying to add post");
+       function loadGroups(){
+            console.log("running loadFeed");
+            removeGroupNodes();
+            //var postContainer = document.getElementById("groupContainer");
 
-       }
+            var leadsRef = firebase.database().ref().child('groups');
+              leadsRef.on('value', function(snapshot) {
+              removeGroupNodes();
+              var groupContainer=document.createElement('div');
+              groupContainer.id="groupContainer";
+              snapshot.forEach(function(childSnapshot) {
+              var childData = childSnapshot.val();
+              //console.log(childData);
+
+              var groupDiv=document.createElement('div');
+                groupDiv.id="groupDiv";
+                //var userInfo = document.createElement("div");
+                //userInfo.id = "userInfo";
+                //groupDiv.appendChild(userInfo);
+                //var postData = document.createElement("div");
+                //postData.id = "postData";
+                //var userPicture=document.createElement("img");
+                //userPicture.id="user-feed-pic";
+                //userPicture.src=childData["picturesrc"];
+                //userInfo.appendChild(userPicture);
+                var groupName=document.createElement("h1");
+                groupName.id="userLabel";
+                groupName.innerHTML=childData["title"];
+                groupDiv.appendChild(groupName);
+                //var titleText=document.createElement("h1");
+                //titleText.id="titleElement";
+                //titleText.innerHTML=childData["title"];
+                //postData.appendChild(titleText);
+                var groupDescription=document.createElement("p");
+                groupDescription.id="bodyElement";
+                groupDescription.innerHTML=childData["description"];
+                groupDiv.appendChild(groupDescription);
+
+                var groupTag=document.createElement("p");
+                groupTag.id="groupTag";
+                groupTag.innerHTML="@" + childData["tag"];
+                groupDiv.appendChild(groupTag);
+                //groupDiv.appendChild(userInfo);
+                //groupDiv.appendChild(postData);
+                groupContainer.appendChild(groupDiv);
+                document.body.appendChild(groupContainer);
+            });
+          });
+          }
+          function removeGroupNodes(){
+          while(true){
+            try{
+              document.body.removeChild(document.getElementById("groupContainer"));
+
+            }
+            catch(error){
+              console.log("found an error");
+              break;
+            }
+
+          }
+          }
      </script>
   </head>
   <body>
@@ -96,5 +154,12 @@
                 <li><div><img id="user-pic" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div></li>
             </ul>
     </nav>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
   </body>
 </html>
