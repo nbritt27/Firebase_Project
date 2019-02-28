@@ -162,15 +162,17 @@
             document.body.removeChild(document.getElementById("submitButton"));
             // A post entry.
             
-            var postData = {
-       
-                description: description,
-                title: title,
-                tag: tag,
-                date: new Date(),
-            };
+
             // Get a key for a new Post.
             var newPostKey = firebase.database().ref().child('groups').push().key;
+            var postData = {
+       
+              description: description,
+              title: title,
+              tag: tag,
+              date: new Date(),
+              id: newPostKey
+            };
             // Write the new post's data simultaneously in the posts list and the user's post list.
             var updates = {};
             updates['/groups/' + newPostKey] = postData;
