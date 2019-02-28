@@ -78,6 +78,18 @@
          initApp();
          loadGroups();
        });
+       function addUserToGroup(tagId){
+        var leadsRef = firebase.database().ref().child('groups').child(tagId);
+        var postData = {
+       
+              userid:userRef.uid,
+              username: userRef.displayName
+            };
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            var updates = {};
+            updates['/groups/' + ("/" +  tagId + "/") + "/users/" + userRef.uid] = postData;
+            firebase.database().ref().child('/groups/' + ("/" +  tagId + "/") + "/users/" + userRef.uid).update(postData);
+       }
        function loadGroups(){
             console.log("running loadFeed");
             removeGroupNodes();
@@ -124,7 +136,46 @@
                 var groupJoin=document.createElement("button");
                 groupJoin.id="groupJoin";
                 groupJoin.innerHTML="Join";
-                
+                groupJoin.onclick=function(){addUserToGroup(childData["id"])};
+                groupDiv.append(groupJoin);
+
+                var currentUsersLabel=document.createElement("p");
+                currentUsersLabel.id="currentUsersLabel";
+                currentUsersLabel.innerHTML="Current Members: ";
+                groupDiv.append(currentUsersLabel);
+
+
+                try{    
+                  console.log(childData["users"]);
+                  console.log(Object.keys(childData["users"]).length)
+                  console.log(Object.keys(childData["users"]).length)            
+                  for(var i=0;i<Object.keys(childData["users"]).length;i++){
+                    var currentUser=document.createElement("p");
+                    currentUser.id="currentUser";
+                    var currentUserData=Object.keys(childData["users"]);
+                    //console.log(currentUserData["4bGq1IgXbZerg7rzJg7KTmsFZri2"]);
+                    console.log(childData["users"][currentUserData[i]]["username"]);
+                    currentUser.innerHTML=childData["users"][currentUserData[i]]["username"];
+                    groupDiv.append(currentUser);
+                    console.log("adding user");
+                  }
+                  /*
+                  var usersData=leadsRef.child("users");
+                  //console.log(userData);
+                  usersData.on('value', function(secondSnapshot) {
+                    secondSnapshot.forEach(function(secondChildSnapshot) {
+                      var secondChildData = secondChildSnapshot.val();
+                      //for(var i=0;i<usersData.length;i++){
+                        console.log(secondChildData["users"]);
+                        console.log("testing");
+                      //}
+                    });
+                  });*/
+                }
+                catch(error){
+                  console.log(error);
+                }
+
                 //groupDiv.appendChild(userInfo);
                 //groupDiv.appendChild(postData);
                 groupContainer.appendChild(groupDiv);
