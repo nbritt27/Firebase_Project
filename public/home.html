@@ -151,6 +151,9 @@
           }
           */
         }
+
+        var addGroupPresent = false;
+
         function writeNewGroup(title, description, tag) {
             //console.log("Trying to write new post");
             document.body.removeChild(document.getElementById("titleLabel"));
@@ -160,6 +163,7 @@
             document.body.removeChild(document.getElementById("tagLabel"));
             document.body.removeChild(document.getElementById("tagText"));
             document.body.removeChild(document.getElementById("submitButton"));
+            addGroupPresent = false;
             // A post entry.
 
             var postData = {
@@ -177,7 +181,6 @@
             firebase.database().ref().child('groups/'+newPostKey).update(postData);
         }
 
-        var addGroupPresent = false;
         function addGroup(){
          if (!addGroupPresent){
            var titleLabel=document.createElement("h3");
@@ -207,10 +210,7 @@
            submitButton.onclick=function(){writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagText").value)};
            submitButton.id="submitButton";
            addGroupPresent = !addGroupPresent;
-         } else {
-           console.log
          }
-
       }
         function writeNewPost(uid, uname, pic, heading, text) {
             //console.log("Trying to write new post");
@@ -219,6 +219,7 @@
             document.body.removeChild(document.getElementById("bodyLabel"));
             document.body.removeChild(document.getElementById("bodyText"));
             document.body.removeChild(document.getElementById("submitButton"));
+            addPostPresent = false;
             // A post entry.
 
             var postData = {
