@@ -161,9 +161,9 @@
             document.body.removeChild(document.getElementById("tagText"));
             document.body.removeChild(document.getElementById("submitButton"));
             // A post entry.
-            
+
             var postData = {
-       
+
                 description: description,
                 title: title,
                 tag: tag,
@@ -176,36 +176,41 @@
             updates['/groups/' + newPostKey] = postData;
             firebase.database().ref().child('groups/'+newPostKey).update(postData);
         }
+
+        var addGroupPresent = false;
         function addGroup(){
-        //console.log("Trying to add post");
-         var titleLabel=document.createElement("h3");
-         titleLabel.innerHTML="Title: "
-         document.body.appendChild(titleLabel);
-         titleLabel.id="titleLabel";
-         var titleText=document.createElement("input");
-         document.body.appendChild(titleText);
-         titleText.id="titleText";
-         var bodyLabel=document.createElement("h3");
-         bodyLabel.innerHTML="Description: "
-         document.body.appendChild(bodyLabel);
-         bodyLabel.id="bodyLabel";
-         var bodyText=document.createElement("input");
-         document.body.appendChild(bodyText);
-         bodyText.id="bodyText";
-         var tagLabel=document.createElement("h3");
-         tagLabel.innerHTML="Tag: "
-         document.body.appendChild(tagLabel);
-         tagLabel.id="tagLabel";
-         var tagText=document.createElement("input");
-         
-         document.body.appendChild(tagText);
-         tagText.id="tagText";
-         var submitButton=document.createElement("button");
-         submitButton.innerHTML="Post";
-         document.body.appendChild(submitButton);
-         submitButton.onclick=function(){writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagText").value)};
-        
-         submitButton.id="submitButton";
+         if (!addGroupPresent){
+           var titleLabel=document.createElement("h3");
+           titleLabel.innerHTML="Title: "
+           document.body.appendChild(titleLabel);
+           titleLabel.id="titleLabel";
+           var titleText=document.createElement("input");
+           document.body.appendChild(titleText);
+           titleText.id="titleText";
+           var bodyLabel=document.createElement("h3");
+           bodyLabel.innerHTML="Description: "
+           document.body.appendChild(bodyLabel);
+           bodyLabel.id="bodyLabel";
+           var bodyText=document.createElement("input");
+           document.body.appendChild(bodyText);
+           bodyText.id="bodyText";
+           var tagLabel=document.createElement("h3");
+           tagLabel.innerHTML="Tag: "
+           document.body.appendChild(tagLabel);
+           tagLabel.id="tagLabel";
+           var tagText=document.createElement("input");
+           document.body.appendChild(tagText);
+           tagText.id="tagText";
+           var submitButton=document.createElement("button");
+           submitButton.innerHTML="Post";
+           document.body.appendChild(submitButton);
+           submitButton.onclick=function(){writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagText").value)};
+           submitButton.id="submitButton";
+           addGroupPresent = !addGroupPresent;
+         } else {
+           console.log
+         }
+
       }
         function writeNewPost(uid, uname, pic, heading, text) {
             //console.log("Trying to write new post");
