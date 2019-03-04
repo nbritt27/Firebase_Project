@@ -122,7 +122,11 @@
             var year = parseDate(childData["date"]).getFullYear();
             postedDate.innerHTML= month.toString() + "/" + day.toString() + "/" + year.toString();
             userInfo.appendChild(postedDate);
+            var likeButton = document.createElement("button");
+            likeButton.id = "likeButton";
+            likeButton.innerHTML = ":)";
             postData.appendChild(bodyText);
+            postData.appendChild(likeButton);
             postDiv.appendChild(userInfo);
             postDiv.appendChild(postData);
             postContainer.prepend(postDiv);
