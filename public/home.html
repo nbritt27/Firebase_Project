@@ -130,7 +130,32 @@
             });
           });
           }
+        function checkForTags(inputText, postInfo, postKey){
+          console.log(inputText);
+          for(var i=0;i<inputText.length;i++){
+            if(inputText[i][0]=="@"){
+              console.log("Found a tag at " + i);
+              var tagName=inputText[i].substring(1,inputText[i].length);
+              console.log("The tag name is: " + tagName);
 
+              var leadsRef = firebase.database().ref().child('groups');
+              //console.log(leadsRef.val());
+              
+              leadsRef.on('value', function(snapshot) {
+              snapshot.forEach(function(childSnapshot) {
+              var childData = childSnapshot.val();
+              //console.log("data says a tag is " + childData["tag"]);
+              if(childData["tag"]==tagName){
+                //console.log ("This is referring to a post with id " + childData["id"]);
+                
+                firebase.database().ref().child('groups/'+childData["id"]+'/posts/' + postKey).update(postInfo);
+              }
+          });
+          });
+            }
+          }
+          window.reload();
+        }
         function parseDate(input) {
           var parts = input.match(/(\d+)/g);
           // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
@@ -176,19 +201,22 @@
             addGroupPresent = false;
             // A post entry.
 
-            var postData = {
-
-                description: description,
-                title: title,
-                tag: tag,
-                date: new Date(),
-            };
             // Get a key for a new Post.
             var newPostKey = firebase.database().ref().child('groups').push().key;
+            
+            var postData = {
+
+              description: description,
+              title: title,
+              tag: tag,
+              date: new Date(),
+              id: newPostKey
+              };
             // Write the new post's data simultaneously in the posts list and the user's post list.
             var updates = {};
             updates['/groups/' + newPostKey] = postData;
             firebase.database().ref().child('groups/'+newPostKey).update(postData);
+
         }
 
         function addGroup(){
@@ -248,6 +276,8 @@
             updates['/user-posts/' + uid + '/' + newPostKey] = postData;
             firebase.database().ref().child('posts/'+newPostKey).update(postData);
             firebase.database().ref().child('user-posts/'+uid+'/'+newPostKey).update(postData);
+            checkForTags(text.split(" "), postData, newPostKey);
+
         }
 
         var addPostPresent = false;

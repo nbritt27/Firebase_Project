@@ -115,7 +115,8 @@
                 //userPicture.id="user-feed-pic";
                 //userPicture.src=childData["picturesrc"];
                 //userInfo.appendChild(userPicture);
-                var groupName=document.createElement("h1");
+                var groupName=document.createElement("a");
+                groupName.href="/group1"
                 groupName.id="userLabel";
                 groupName.innerHTML=childData["title"];
                 groupDiv.appendChild(groupName);
@@ -176,6 +177,61 @@
                   console.log(error);
                 }
 
+
+                  //removeFeedNodes();
+                  //var postContainer = document.getElementById("postContainer");
+                  var loadRef = firebase.database().ref().child('groups/' + childData["id"] + "/posts");
+                  loadRef.on('value', function(snapshot) {
+                 // removeFeedNodes();
+                  var postContainer=document.createElement('div');
+                  postContainer.id="postContainer";
+                  snapshot.forEach(function(childSnapshot) {
+                  var childData = childSnapshot.val();
+                  //console.log(childData);
+
+                  var postDiv=document.createElement('div');
+                  postDiv.id="postDiv";
+                  var userInfo = document.createElement("div");
+                  userInfo.id = "userInfo";
+                  postDiv.appendChild(userInfo);
+                  var postData = document.createElement("div");
+                  postData.id = "postData";
+                  var userPicture=document.createElement("img");
+                  userPicture.id="user-feed-pic";
+                  userPicture.src=childData["picturesrc"];
+                  userInfo.appendChild(userPicture);
+                  var userLabel=document.createElement("h2");
+                  userLabel.id="userLabel";
+                  userLabel.innerHTML=childData["author"];
+                  userInfo.appendChild(userLabel);
+                  var titleText=document.createElement("h1");
+                  titleText.id="titleElement";
+                  titleText.innerHTML=childData["title"];
+                  postData.appendChild(titleText);
+                  var bodyText=document.createElement("p");
+                  bodyText.id="bodyElement";
+                  bodyText.innerHTML=childData["body"];
+                  var postedDate = document.createElement("p");
+                  postedDate.id="datePosted";
+                  var month = parseDate(childData["date"]).getMonth() + 1;
+                  var day = parseDate(childData["date"]).getDate();
+                  var year = parseDate(childData["date"]).getFullYear();
+                  postedDate.innerHTML= month.toString() + "/" + day.toString() + "/" + year.toString();
+                  userInfo.appendChild(postedDate);
+                  postData.appendChild(bodyText);
+                  postDiv.appendChild(userInfo);
+                  postDiv.appendChild(postData);
+                  postContainer.prepend(postDiv);
+                  groupDiv.appendChild(postContainer);
+                  //document.body.appendChild(groupDiv);
+                  console.log("Should be posting now");
+                  });
+                });
+
+
+
+
+
                 //groupDiv.appendChild(userInfo);
                 //groupDiv.appendChild(postData);
                 groupContainer.appendChild(groupDiv);
@@ -185,6 +241,19 @@
           }
           function removeGroupNodes(){
           while(true){
+            try{
+              document.body.removeChild(document.getElementById("groupContainer"));
+
+            }
+            catch(error){
+              console.log("found an error");
+              break;
+            }
+
+          }
+          }
+          function removeFeedNodes(){
+            while(true){
             try{
               document.body.removeChild(document.getElementById("groupContainer"));
 
