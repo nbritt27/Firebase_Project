@@ -47,6 +47,10 @@ body {
   grid-template-columns: auto;
 }
 
+#datePosted{
+  float: right;
+}
+
 #titleLabel, #titleText, #bodyLabel, #bodyText, #tagText, #tagLabel{
   margin: 10px;
   font-family: arial;

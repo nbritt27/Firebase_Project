@@ -117,7 +117,10 @@
             bodyText.innerHTML=childData["body"];
             var postedDate = document.createElement("p");
             postedDate.id="datePosted";
-            postedDate.innerHTML=parseDate(childData["date"]).getYear();
+            var month = parseDate(childData["date"]).getMonth() + 1;
+            var day = parseDate(childData["date"]).getDate();
+            var year = parseDate(childData["date"]).getFullYear();
+            postedDate.innerHTML= month.toString() + "/" + day.toString() + "/" + year.toString();
             userInfo.appendChild(postedDate);
             postData.appendChild(bodyText);
             postDiv.appendChild(userInfo);
@@ -173,16 +176,24 @@
             addGroupPresent = false;
             // A post entry.
 
+            var postData = {
+
+                description: description,
+                title: title,
+                tag: tag,
+                date: new Date(),
+            };
             // Get a key for a new Post.
             var newPostKey = firebase.database().ref().child('groups').push().key;
-            var postData = {
-       
-              description: description,
-              title: title,
-              tag: tag,
-              date: new Date(),
-              id: newPostKey
-            };
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            var updates = {};
+            updates['/groups/' + newPostKey] = postData;
+            firebase.database().ref().child('groups/'+newPostKey).update(postData);
+        }
+
+        function addGroup(){
+         if (!addGroupPresent){
+           var titleLabel=document.createElement("h3");
            titleLabel.innerHTML="Title: "
            document.body.appendChild(titleLabel);
            titleLabel.id="titleLabel";
@@ -210,7 +221,7 @@
            submitButton.id="submitButton";
            addGroupPresent = !addGroupPresent;
          }
-      
+      }
         function writeNewPost(uid, uname, pic, heading, text) {
             //console.log("Trying to write new post");
             document.body.removeChild(document.getElementById("titleLabel"));
@@ -264,7 +275,7 @@
            var submitButton=document.createElement("button");
            submitButton.innerHTML="Post";
            document.body.appendChild(submitButton);
-           submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.email, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
+           submitButton.onclick=function(){writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)};
            submitButton.id="submitButton";
            addPostPresent = !addPostPresent;
          }
