@@ -144,14 +144,14 @@
 
               var leadsRef = firebase.database().ref().child('groups');
               //console.log(leadsRef.val());
-              
+
               leadsRef.on('value', function(snapshot) {
               snapshot.forEach(function(childSnapshot) {
               var childData = childSnapshot.val();
               //console.log("data says a tag is " + childData["tag"]);
               if(childData["tag"]==tagName){
                 //console.log ("This is referring to a post with id " + childData["id"]);
-                
+
                 firebase.database().ref().child('groups/'+childData["id"]+'/posts/' + postKey).update(postInfo);
               }
           });
@@ -207,7 +207,7 @@
 
             // Get a key for a new Post.
             var newPostKey = firebase.database().ref().child('groups').push().key;
-            
+
             var postData = {
 
               description: description,
@@ -256,13 +256,16 @@
       }
         function writeNewPost(uid, uname, pic, heading, text) {
             //console.log("Trying to write new post");
-            document.body.removeChild(document.getElementById("titleLabel"));
+            /*document.body.removeChild(document.getElementById("titleLabel"));
             document.body.removeChild(document.getElementById("titleText"));
             document.body.removeChild(document.getElementById("bodyLabel"));
             document.body.removeChild(document.getElementById("bodyText"));
             document.body.removeChild(document.getElementById("submitButton"));
-            addPostPresent = false;
+            addPostPresent = false;*/
             // A post entry.
+            var modal = document.getElementById('myModal').style.display = "none";
+            var title = document.getElementById('titleText').value = "";
+            var text = document.getElementById('bodyText').value = "";
 
             var postData = {
                 author: uname,
@@ -318,16 +321,16 @@
 </head>
 <body>
     <nav class="nav-login">
-            <ul>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="groups.html">Groups</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="login.html">Profile</a></li>
+      <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="groups.html">Groups</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="login.html">Profile</a></li>
 
-                <li><div id="firebaseui-auth-container"></div></li>
-                <li><div><img id="user-pic" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div></li>
-            </ul>
-            </nav>
+          <li><div id="firebaseui-auth-container"></div></li>
+          <li><div><img id="user-pic" src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png" style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div></li>
+      </ul>
+    </nav>
 
     <br>
     <br>
@@ -335,12 +338,65 @@
     <br>
     <br>
     <br>
-    <button type="button" onclick="addPost()">Add Post</button>
+    <button type="button" id="addPost">Add Post</button>
     <button type="button" onclick="loadFeed()">Refresh Feed</button>
     <button type="button" onclick="addGroup()">Create Group</button>
 
     <br>
     <div id="postContainer"></div>
 
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Add Post</h2>
+        </div>
+        <div class="modal-body">
+          <h3 id="titleLabel">Title:</h3>
+          <input id="titleText" type="text" name="" value="">
+          <h3 id="bodyLabel">Body:</h3>
+          <input id="bodyText" type="text" name="" value="">
+          <button id="submitButton" type="button">Post It!</button>
+        </div>
+      </div>
+
+    </div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("addPost");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+var submit = document.getElementById('submitButton');
+submit.onclick = function() {
+  console.log("Trying to submit");
+  writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)
+}
+</script>
 </body>
 </html>
