@@ -117,6 +117,7 @@
             bodyText.innerHTML=childData["body"];
             var postedDate = document.createElement("p");
             postedDate.id="datePosted";
+            var date = childData["date"].toString();
             var month = parseDate(childData["date"]).getMonth() + 1;
             var day = parseDate(childData["date"]).getDate();
             var year = parseDate(childData["date"]).getFullYear();
@@ -158,7 +159,7 @@
           });
             }
           }
-          window.reload();
+          location.reload();
         }
         function parseDate(input) {
           var parts = input.match(/(\d+)/g);
@@ -255,17 +256,6 @@
          }
       }
         function writeNewPost(uid, uname, pic, heading, text) {
-            //console.log("Trying to write new post");
-            /*document.body.removeChild(document.getElementById("titleLabel"));
-            document.body.removeChild(document.getElementById("titleText"));
-            document.body.removeChild(document.getElementById("bodyLabel"));
-            document.body.removeChild(document.getElementById("bodyText"));
-            document.body.removeChild(document.getElementById("submitButton"));
-            addPostPresent = false;*/
-            // A post entry.
-            var modal = document.getElementById('myModal').style.display = "none";
-            var title = document.getElementById('titleText').value = "";
-            var text = document.getElementById('bodyText').value = "";
 
             var postData = {
                 author: uname,
@@ -324,7 +314,7 @@
       <ul>
           <li><a href="home.html">Home</a></li>
           <li><a href="groups.html">Groups</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="contact.html">Contact</a></li>
           <li><a href="login.html">Profile</a></li>
 
           <li><div id="firebaseui-auth-container"></div></li>
@@ -338,9 +328,8 @@
     <br>
     <br>
     <br>
-    <button type="button" id="addPost">Add Post</button>
-    <button type="button" onclick="loadFeed()">Refresh Feed</button>
-    <button type="button" onclick="addGroup()">Create Group</button>
+    <button type="button" id="addPost" class="button">Add Post</button>
+    <button type="button" onclick="addGroup()" class="button">Create Group</button>
 
     <br>
     <div id="postContainer"></div>
@@ -352,7 +341,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <span class="close">&times;</span>
-          <h2>Add Post</h2>
+          <h2 id="modalHeader">Add Post</h2>
         </div>
         <div class="modal-body">
           <h3 id="titleLabel">Title:</h3>
@@ -370,14 +359,24 @@
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
-var btn = document.getElementById("addPost");
+var postButton = document.getElementById("addPost");
+
+var groupButton = document.getElementById("addGroup");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal
-btn.onclick = function() {
+postButton.onclick = function() {
   modal.style.display = "block";
+  var modalHeader = document.getElementById("modalHeader");
+  modalHeader.innerHTML = "Add Post";
+}
+
+groupButton.onclick = function() {
+  modal.style.display = "block";
+  var modalHeader = document.getElementById("modalHeader");
+  modalHeader.innerHTML = "Add Group";
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -394,7 +393,7 @@ window.onclick = function(event) {
 
 var submit = document.getElementById('submitButton');
 submit.onclick = function() {
-  console.log("Trying to submit");
+  console.log("Submitting post.");
   writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)
 }
 </script>
