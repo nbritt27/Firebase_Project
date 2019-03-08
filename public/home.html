@@ -117,6 +117,7 @@
             bodyText.innerHTML=childData["body"];
             var postedDate = document.createElement("p");
             postedDate.id="datePosted";
+            var date = childData["date"].toString();
             var month = parseDate(childData["date"]).getMonth() + 1;
             var day = parseDate(childData["date"]).getDate();
             var year = parseDate(childData["date"]).getFullYear();
@@ -158,7 +159,7 @@
           });
             }
           }
-          window.reload();
+          location.reload();
         }
         function parseDate(input) {
           var parts = input.match(/(\d+)/g);
@@ -255,17 +256,6 @@
          }
       }
         function writeNewPost(uid, uname, pic, heading, text) {
-            //console.log("Trying to write new post");
-            /*document.body.removeChild(document.getElementById("titleLabel"));
-            document.body.removeChild(document.getElementById("titleText"));
-            document.body.removeChild(document.getElementById("bodyLabel"));
-            document.body.removeChild(document.getElementById("bodyText"));
-            document.body.removeChild(document.getElementById("submitButton"));
-            addPostPresent = false;*/
-            // A post entry.
-            var modal = document.getElementById('myModal').style.display = "none";
-            var title = document.getElementById('titleText').value = "";
-            var text = document.getElementById('bodyText').value = "";
 
             var postData = {
                 author: uname,
@@ -338,9 +328,9 @@
     <br>
     <br>
     <br>
-    <button type="button" id="addPost">Add Post</button>
-    <button type="button" onclick="loadFeed()">Refresh Feed</button>
-    <button type="button" onclick="addGroup()">Create Group</button>
+    <button type="button" id="addPost" class="button">Add Post</button>
+    <button type="button" onclick="loadFeed()" class="button">Refresh Feed</button>
+    <button type="button" onclick="addGroup()" class="button">Create Group</button>
 
     <br>
     <div id="postContainer"></div>
@@ -394,7 +384,7 @@ window.onclick = function(event) {
 
 var submit = document.getElementById('submitButton');
 submit.onclick = function() {
-  console.log("Trying to submit");
+  console.log("Submitting post.");
   writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)
 }
 </script>
