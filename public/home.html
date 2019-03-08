@@ -21,18 +21,15 @@
   </script>
   <script type="text/javascript">
     var userRef;
-    var likingPost = false;
-    var currentposts={};
+    var currentposts = {};
     initApp = function () {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
           userRef = user;
-
           var database = firebase.database();
           var displayName = user.displayName;
           this.userPic = document.getElementById('user-pic');
-
           var email = user.email;
           var emailVerified = user.emailVerified;
           var photoURL = user.photoURL;
@@ -64,8 +61,6 @@
               providerData: providerData
             }, null, '  ');
           });
-
-
         } else {
           // User is signed out.
           document.getElementById('sign-in-status').textContent = 'Signed out';
@@ -75,10 +70,8 @@
       }, function (error) {
         console.log(error);
       });
-
     };
     window.addEventListener('load', function () {
-
       initApp();
       loadFeed();
       //console.log(document.getElementById("ageText").value);
@@ -95,7 +88,6 @@
         snapshot.forEach(function (childSnapshot) {
           var childData = childSnapshot.val();
           //console.log(childData);
-
           var postDiv = document.createElement('div');
           postDiv.id = "postDiv";
           var userInfo = document.createElement("div");
@@ -128,24 +120,45 @@
           var likeButton = document.createElement("button");
           likeButton.id = "likeButton";
           likeButton.innerHTML = ":)";
-          likeButton.onclick = addEventListener("click", function(){runLikePost(childData["postId"])});
-          try{
-            if(childData[numLikes]==null){
-              currentposts[childData["postId"]]=1;
+          try {
+            if (childData["numLikes"] == null) {
+              currentposts[childData["postId"]] = 0;
 
             }
-            else{
-              currentposts[childData["postId"]]=childData["numLikes"];
-              currentposts[childData["postId"]]=childData["numLikes"];
+            else {
+              currentposts[childData["postId"]] = childData["numLikes"];
             }
-            
+
           }
-          catch(error){
-            currentposts[childData["postId"]]=1;
+          catch (error) {
+            console.log("Error message in loadfeed is " + error);
+            currentposts[childData["postId"]] = 1;
           }
-          console.log(currentposts);
+          likeButton.addEventListener("click", function () { likePost(childData["postId"]) });
+          var likeText=document.createElement("p");
+          likeText.id="likeText";
+          try {
+            if (childData["numLikes"] == null) {
+              likeText.innerHTML="0"
+
+            }
+            else {
+              likeText.innerHTML=childData["numLikes"];
+            }
+
+          }
+          catch (error) {
+            console.log("Error message in loadfeed is " + error);
+            likeText.innerHTML="0"
+          }
+        
+          console.log("post id is equal to: " + childData["postId"]);
+
           postData.appendChild(bodyText);
+          
           postData.appendChild(likeButton);
+          postData.appendChild(likeText);
+
           postDiv.appendChild(userInfo);
           postDiv.appendChild(postData);
           postContainer.prepend(postDiv);
@@ -153,50 +166,36 @@
         });
       });
     }
-    /*
-    function runLikePost(postId) {
-      console.log("running run like post");
-      likingPost = true;
-      likePost(postId);
-    }
     function likePost(postId) {
-      
-      //console.log("running likepost");
+
+      console.log("running likepost");
       //console.log(firebase.database().ref().orderByChild());
-      
-      var leadsRef = firebase.database().ref().child('posts/' + postId);
-       
-            console.log(currentposts[postId]);
-            try {
-              likeData = {
-                numLikes: 1+currentposts[postId]
-              }
-              currentposts[postId]=currentposts[postId]+1;
 
-            }
+      var leadsRef = firebase.database().ref().child('posts').child(postId.toString());
 
+      console.log(currentposts[postId]);
+      try {
+        likeData = {
+          numLikes: 1 + currentposts[postId.toString()]
+        }
+        currentposts[postId] = currentposts[postId.toString()] + 1;
 
-            catch (error) {
-              console.log(error);
-              likeData = {
-                numLikes: 1
-              }
-              currentposts[postId]=1;
-
-            }
-            firebase.database().ref().child('posts/' + postId).update(likeData);
+      }
 
 
+      catch (error) {
+        console.log("Ran into an error and the error is that " + error);
+        likeData = {
+          numLikes: 1
+        }
+        currentposts[postId] = 1;
 
-
-
-
-      //console.log(firebase.database().ref().child('posts/'+postId).val());
-
-
+      }
+      firebase.database().ref().child('posts').child(postId).update(likeData);
 
     }
-    */
+
+
     function checkForTags(inputText, postInfo, postKey) {
       console.log(inputText);
       for (var i = 0; i < inputText.length; i++) {
@@ -204,17 +203,14 @@
           console.log("Found a tag at " + i);
           var tagName = inputText[i].substring(1, inputText[i].length);
           console.log("The tag name is: " + tagName);
-
           var leadsRef = firebase.database().ref().child('groups');
           //console.log(leadsRef.val());
-
           leadsRef.on('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
               var childData = childSnapshot.val();
               //console.log("data says a tag is " + childData["tag"]);
               if (childData["tag"] == tagName) {
                 //console.log ("This is referring to a post with id " + childData["id"]);
-
                 firebase.database().ref().child('groups/' + childData["id"] + '/posts/' + postKey).update(postInfo);
               }
             });
@@ -228,18 +224,15 @@
       // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
       return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
     }
-
     function removeFeedNodes() {
       while (true) {
         try {
           document.body.removeChild(document.getElementById("postContainer"));
-
         }
         catch (error) {
           console.log("found an error");
           break;
         }
-
       }
       /*
       console.log("Trying to remove feeds");
@@ -253,9 +246,7 @@
       }
       */
     }
-
     var addGroupPresent = false;
-
     function writeNewGroup(title, description, tag) {
       //console.log("Trying to write new post");
       document.body.removeChild(document.getElementById("titleLabel"));
@@ -267,12 +258,9 @@
       document.body.removeChild(document.getElementById("submitButton"));
       addGroupPresent = false;
       // A post entry.
-
       // Get a key for a new Post.
       var newPostKey = firebase.database().ref().child('groups').push().key;
-
       var postData = {
-
         description: description,
         title: title,
         tag: tag,
@@ -283,9 +271,7 @@
       var updates = {};
       updates['/groups/' + newPostKey] = postData;
       firebase.database().ref().child('groups/' + newPostKey).update(postData);
-
     }
-
     function addGroup() {
       if (!addGroupPresent) {
         var titleLabel = document.createElement("h3");
@@ -312,25 +298,25 @@
         var submitButton = document.createElement("button");
         submitButton.innerHTML = "Post";
         document.body.appendChild(submitButton);
-        submitButton.onclick = function () { writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagText").value) };
+        submitButton.onclick = 'function () { writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagText").value) }';
         submitButton.id = "submitButton";
         addGroupPresent = !addGroupPresent;
       }
     }
     function writeNewPost(uid, uname, pic, heading, text) {
       //console.log("Trying to write new post");
-      document.body.removeChild(document.getElementById("titleLabel"));
+      /*document.body.removeChild(document.getElementById("titleLabel"));
       document.body.removeChild(document.getElementById("titleText"));
       document.body.removeChild(document.getElementById("bodyLabel"));
       document.body.removeChild(document.getElementById("bodyText"));
       document.body.removeChild(document.getElementById("submitButton"));
-      addPostPresent = false;
+      addPostPresent = false;*/
       // A post entry.
-
-
-      // Get a key for a new Post.
+      var modal = document.getElementById('myModal').style.display = "none";
+      var title = document.getElementById('titleText').value = "";
+      var text = document.getElementById('bodyText').value = "";
       var newPostKey = firebase.database().ref().child('posts').push().key;
-      // Write the new post's data simultaneously in the posts list and the user's post list.
+
       var postData = {
         author: uname,
         uid: uid,
@@ -340,17 +326,16 @@
         picturesrc: pic,
         postId: newPostKey
       };
+      // Get a key for a new Post.
+      // Write the new post's data simultaneously in the posts list and the user's post list.
       var updates = {};
       updates['/posts/' + newPostKey] = postData;
       updates['/user-posts/' + uid + '/' + newPostKey] = postData;
       firebase.database().ref().child('posts/' + newPostKey).update(postData);
       firebase.database().ref().child('user-posts/' + uid + '/' + newPostKey).update(postData);
       checkForTags(text.split(" "), postData, newPostKey);
-
     }
-
     var addPostPresent = false;
-
     function addPost() {
       if (addPostPresent) {
         console.log("Add box already present.");
@@ -407,13 +392,60 @@
   <br>
   <br>
   <br>
-  <button type="button" onclick="addPost()">Add Post</button>
+  <button type="button" id="addPost">Add Post</button>
   <button type="button" onclick="loadFeed()">Refresh Feed</button>
   <button type="button" onclick="addGroup()">Create Group</button>
 
   <br>
   <div id="postContainer"></div>
 
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2>Add Post</h2>
+      </div>
+      <div class="modal-body">
+        <h3 id="titleLabel">Title:</h3>
+        <input id="titleText" type="text" name="" value="">
+        <h3 id="bodyLabel">Body:</h3>
+        <input id="bodyText" type="text" name="" value="">
+        <button id="submitButton" type="button">Post It!</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+    // Get the button that opens the modal
+    var btn = document.getElementById("addPost");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    var submit = document.getElementById('submitButton');
+    submit.onclick = function () {
+      console.log("Trying to submit");
+      writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)
+    }
+  </script>
 </body>
 
 </html>
