@@ -102,7 +102,12 @@ h1{
 #postData{
   width: 75%;
 }
-
+#likeButton{
+  float: left;
+}
+#likeText{
+  float: left;
+}
 #postDiv{
   color: #333;
   background-color: white;
