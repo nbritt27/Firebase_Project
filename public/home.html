@@ -324,6 +324,10 @@
         picturesrc: pic,
         postId: newPostKey
       };
+
+      var title = document.getElementById('titleText').value = "";
+      var text = document.getElementById('bodyText').value = "";
+
       // Get a key for a new Post.
       // Write the new post's data simultaneously in the posts list and the user's post list.
       var updates = {};
@@ -392,7 +396,7 @@
   <br>
   <button type="button" class="button" id="addPost">Add Post</button>
   <button type="button" class="button" onclick="loadFeed()">Refresh Feed</button>
-  <button type="button" class="button" onclick="addGroup()">Create Group</button>
+  <button type="button" class="button" id="addGroup">Create Group</button>
 
   <br>
   <div id="postContainer"></div>
@@ -404,12 +408,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <span class="close">&times;</span>
-        <h2>Add Post</h2>
+        <h2 id="headerTitle">Add Post</h2>
       </div>
       <div class="modal-body">
-        <h3 id="titleLabel">Title:</h3>
+        <h3 id="titleLabel"></h3>
         <input id="titleText" type="text" name="" value="">
-        <h3 id="bodyLabel">Body:</h3>
+        <h3 id="bodyLabel"></h3>
         <input id="bodyText" type="text" name="" value="">
         <button id="submitButton" type="button">Post It!</button>
       </div>
@@ -430,15 +434,33 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks the button, open the modal
 postButton.onclick = function() {
   modal.style.display = "block";
-  var modalHeader = document.getElementById("modalHeader");
+  var modalHeader = document.getElementById("headerTitle");
   modalHeader.innerHTML = "Add Post";
+  var title = document.getElementById("titleLabel");
+  title.innerHTML = "Title"
+  var body = document.getElementById("bodyLabel");
+  body.innerHTML = "Body"
 }
 
-/*groupButton.onclick = function() {
+groupButton.onclick = function() {
   modal.style.display = "block";
-  var modalHeader = document.getElementById("modalHeader");
+  var modalHeader = document.getElementById("headerTitle");
   modalHeader.innerHTML = "Add Group";
-}*/
+  var groupName = document.getElementById("titleLabel");
+  groupName.innerHTML = "Group Name"
+  var groupDesc = document.getElementById("bodyLabel");
+  groupDesc.innerHTML = "Description"
+
+  //Adding extra imput
+  var modalContainer = document.getElementById("modal-Body");
+  var tagLabel = document.createElement("h3");
+  tagLabel.innerHTML = "Tag"
+  modalContainer.appendChild(tagLabel);
+  tagLabel.id = "tagLabel";
+  var tagText = document.createElement("input");
+  document.body.appendChild(tagText);
+  tagText.id = "tagText";
+}
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
