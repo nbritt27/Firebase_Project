@@ -415,6 +415,9 @@
         <input id="titleText" type="text" name="" value="">
         <h3 id="bodyLabel"></h3>
         <input id="bodyText" type="text" name="" value="">
+        <h3 id="tagsLabel" style="display: none">Tags</h3>
+        <input id="tagsText" type="text" name="" value="" style="display: none">
+
         <button id="submitButton" type="button">Post It!</button>
       </div>
     </div>
@@ -434,6 +437,8 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks the button, open the modal
 postButton.onclick = function() {
   modal.style.display = "block";
+  document.getElementById("tagsText").style.display="none";
+  document.getElementById("tagsLabel").style.display="none";
   var modalHeader = document.getElementById("headerTitle");
   modalHeader.innerHTML = "Add Post";
   var title = document.getElementById("titleLabel");
@@ -444,6 +449,8 @@ postButton.onclick = function() {
 
 groupButton.onclick = function() {
   modal.style.display = "block";
+  document.getElementById("tagsText").style.display="block";
+  document.getElementById("tagsLabel").style.display="block";
   var modalHeader = document.getElementById("headerTitle");
   modalHeader.innerHTML = "Add Group";
   var groupName = document.getElementById("titleLabel");
@@ -453,6 +460,7 @@ groupButton.onclick = function() {
 
   //Adding extra imput
   var modalContainer = document.getElementById("modal-Body");
+  /*
   var tagLabel = document.createElement("h3");
   tagLabel.innerHTML = "Tag"
   modalContainer.appendChild(tagLabel);
@@ -460,6 +468,8 @@ groupButton.onclick = function() {
   var tagText = document.createElement("input");
   document.body.appendChild(tagText);
   tagText.id = "tagText";
+  */
+
 }
 
 // When the user clicks on <span> (x), close the modal
