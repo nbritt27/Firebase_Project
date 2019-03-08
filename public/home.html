@@ -313,8 +313,6 @@
       addPostPresent = false;*/
       // A post entry.
       var modal = document.getElementById('myModal').style.display = "none";
-      var title = document.getElementById('titleText').value = "";
-      var text = document.getElementById('bodyText').value = "";
       var newPostKey = firebase.database().ref().child('posts').push().key;
 
       var postData = {
