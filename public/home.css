@@ -18,7 +18,12 @@ body {
   border-radius: 10px;
   border: 1px solid white;
 }
-
+#likeButton{
+  float: left;
+}
+#likeText{
+  float: left;
+}
 #userInfo img{
   float: left;
   margin: 10px 10px;
