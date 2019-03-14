@@ -59,12 +59,24 @@ body {
 #datePosted{
   padding: 1px 1px;
   float: right;
+  font-family: 'Lilita One';
 }
 
-#titleLabel, #titleText, #bodyLabel, #bodyText, #tagText, #tagLabel{
+#titleLabel, #titleText, #bodyLabel, #bodyText, #tagsText, #tagsLabel{
   text-align: center;
-  font-family: arial;
-  font-size: 16px;
+  font-family: 'Lilita One';
+  font-size: 20px;
+  font-weight: 200;
+}
+
+#titleLabel{
+  padding-top: 5px;
+}
+
+#titleText, #bodyText, #tagsText{
+  font-size: 17px;
+  font-family: 'Righteous';
+  font-weight: 100;
 }
 
 #user-pic {
@@ -82,6 +94,8 @@ body {
 
 #userLabel{
   float: left;
+  font-family: 'Lilita One';
+  font-weight: 100;
 }
 
 #user-feed-pic{
@@ -96,10 +110,14 @@ body {
 
 #titleElement{
   text-align: center;
+  font-family: 'Lilita One';
+  font-weight: 300;
 }
 
 #bodyElement{
   text-align: center;
+  font-family: 'Comic Sans MS';
+  font-weight: 100;
 }
 
 .nav-login ul li a:hover {
@@ -197,24 +215,33 @@ input{
   font-family: 'Righteous';
 }
 
+#headerTitle{
+  font-family: 'Lilita One';
+  font-weight: 100;
+  padding: 10px 0;
+}
+
 #submitButton{
   background-color: #5cb85c;
   color: white;
   padding: 10px 20px;
-  font-size: 15px;
+  font-size: 20px;
   cursor: pointer;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 7px;
+  border: none;
+  border-radius: 60px;
+  font-family: 'Lilita One';
 }
 
 #likeButton{
-  background-color: #30D6A3;
+  background-color: #0197E8;
   color: white;
   height: 25px;
   width: 25px;
   padding: 0;
-  border-radius: 10%;
-  border: 1px solid darkgrey;
+  border-radius: 50px;
+  border: none;
   float: right;
   text-align: center;
   cursor: pointer;
