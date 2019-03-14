@@ -120,6 +120,27 @@
           var likeButton = document.createElement("button");
           likeButton.id = "likeButton";
           likeButton.innerHTML = ":)";
+          var canLike = true;
+
+          try {
+            childSnapshot.forEach(function (childchildSnapshot) {
+              var info = childchildSnapshot.val();
+              //console.log("FIRST RUN OF THE TEST RETURNED " + info["userId"]);
+              childchildSnapshot.forEach(function (userlikeSnapshot) {
+                var userInfo = userlikeSnapshot.val();
+                //console.log("USER INFO IS EQUAL TO " + userInfo["userId"]);
+                if (userInfo["userId"] == userRef.uid) {
+                  console.log("This user cannot like the post!!!!!!!");
+                  canLike = false;
+                }
+              });
+
+            });
+          }
+          catch (error) {
+            console.log(error);
+          }
+
           try {
             if (childData["numLikes"] == null) {
               currentposts[childData["postId"]] = 0;
@@ -134,22 +155,23 @@
             console.log("Error message in loadfeed is " + error);
             currentposts[childData["postId"]] = 1;
           }
-          likeButton.addEventListener("click", function () { likePost(childData["postId"]) });
-          var likeText=document.createElement("p");
-          likeText.id="likeText";
+          console.log("*** the value for the likedata is equal to " + childData["likedata"]);
+          likeButton.addEventListener("click", function () { likePost(childData["postId"], userRef.uid, canLike) });
+          var likeText = document.createElement("p");
+          likeText.id = "likeText";
           try {
             if (childData["numLikes"] == null) {
-              likeText.innerHTML="0"
+              likeText.innerHTML = "0"
 
             }
             else {
-              likeText.innerHTML=childData["numLikes"];
+              likeText.innerHTML = childData["numLikes"];
             }
 
           }
           catch (error) {
             console.log("Error message in loadfeed is " + error);
-            likeText.innerHTML="0"
+            likeText.innerHTML = "0"
           }
 
           console.log("post id is equal to: " + childData["postId"]);
@@ -166,32 +188,44 @@
         });
       });
     }
-    function likePost(postId) {
-
+    function likePost(postId, userIdentification, canLikePost) {
+      console.log("as to whether or not the user can like the post the answer is: " + canLikePost);
       console.log("running likepost");
+      console.log("current user is: " + userIdentification);
       //console.log(firebase.database().ref().orderByChild());
+      if (canLikePost) {
+        var leadsRef = firebase.database().ref().child('posts').child(postId.toString());
 
-      var leadsRef = firebase.database().ref().child('posts').child(postId.toString());
+        console.log(currentposts[postId]);
+        try {
+          likeData = {
+            numLikes: 1 + currentposts[postId.toString()]
+          }
+          userData = {
+            userId: userIdentification
+          }
+          currentposts[postId] = currentposts[postId.toString()] + 1;
 
-      console.log(currentposts[postId]);
-      try {
-        likeData = {
-          numLikes: 1 + currentposts[postId.toString()]
         }
-        currentposts[postId] = currentposts[postId.toString()] + 1;
+
+
+        catch (error) {
+          console.log("Ran into an error and the error is that " + error);
+          likeData = {
+            numLikes: 1
+
+          }
+          userData = {
+            userId: userIdentification
+          }
+          currentposts[postId] = 1;
+
+        }
+        firebase.database().ref().child('posts').child(postId).update(likeData);
+        firebase.database().ref().child('posts').child(postId).child("likedata").child(userIdentification).update(userData);
+
 
       }
-
-
-      catch (error) {
-        console.log("Ran into an error and the error is that " + error);
-        likeData = {
-          numLikes: 1
-        }
-        currentposts[postId] = 1;
-
-      }
-      firebase.database().ref().child('posts').child(postId).update(likeData);
 
     }
 
@@ -422,74 +456,74 @@
       </div>
     </div>
 
-<script>
-// Get the modal
-var modal = document.getElementById('myModal');
+    <script>
+      // Get the modal
+      var modal = document.getElementById('myModal');
 
-// Get the button that opens the modal
-var postButton = document.getElementById("addPost");
+      // Get the button that opens the modal
+      var postButton = document.getElementById("addPost");
 
-var groupButton = document.getElementById("addGroup");
+      var groupButton = document.getElementById("addGroup");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal
-postButton.onclick = function() {
-  modal.style.display = "block";
-  document.getElementById("tagsText").style.display="none";
-  document.getElementById("tagsLabel").style.display="none";
-  var modalHeader = document.getElementById("headerTitle");
-  modalHeader.innerHTML = "Add Post";
-  var title = document.getElementById("titleLabel");
-  title.innerHTML = "Title"
-  var body = document.getElementById("bodyLabel");
-  body.innerHTML = "Body"
-}
+      // When the user clicks the button, open the modal
+      postButton.onclick = function () {
+        modal.style.display = "block";
+        document.getElementById("tagsText").style.display = "none";
+        document.getElementById("tagsLabel").style.display = "none";
+        var modalHeader = document.getElementById("headerTitle");
+        modalHeader.innerHTML = "Add Post";
+        var title = document.getElementById("titleLabel");
+        title.innerHTML = "Title"
+        var body = document.getElementById("bodyLabel");
+        body.innerHTML = "Body"
+      }
 
-groupButton.onclick = function() {
-  modal.style.display = "block";
-  document.getElementById("tagsText").style.display="block";
-  document.getElementById("tagsLabel").style.display="block";
-  var modalHeader = document.getElementById("headerTitle");
-  modalHeader.innerHTML = "Add Group";
-  var groupName = document.getElementById("titleLabel");
-  groupName.innerHTML = "Group Name"
-  var groupDesc = document.getElementById("bodyLabel");
-  groupDesc.innerHTML = "Description"
+      groupButton.onclick = function () {
+        modal.style.display = "block";
+        document.getElementById("tagsText").style.display = "block";
+        document.getElementById("tagsLabel").style.display = "block";
+        var modalHeader = document.getElementById("headerTitle");
+        modalHeader.innerHTML = "Add Group";
+        var groupName = document.getElementById("titleLabel");
+        groupName.innerHTML = "Group Name"
+        var groupDesc = document.getElementById("bodyLabel");
+        groupDesc.innerHTML = "Description"
 
-  //Adding extra imput
-  var modalContainer = document.getElementById("modal-Body");
-  /*
-  var tagLabel = document.createElement("h3");
-  tagLabel.innerHTML = "Tag"
-  modalContainer.appendChild(tagLabel);
-  tagLabel.id = "tagLabel";
-  var tagText = document.createElement("input");
-  document.body.appendChild(tagText);
-  tagText.id = "tagText";
-  */
+        //Adding extra imput
+        var modalContainer = document.getElementById("modal-Body");
+        /*
+        var tagLabel = document.createElement("h3");
+        tagLabel.innerHTML = "Tag"
+        modalContainer.appendChild(tagLabel);
+        tagLabel.id = "tagLabel";
+        var tagText = document.createElement("input");
+        document.body.appendChild(tagText);
+        tagText.id = "tagText";
+        */
 
-}
+      }
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      }
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
 
-var submit = document.getElementById('submitButton');
-submit.onclick = function() {
-  console.log("Submitting post.");
-  writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)
-}
-</script>
+      var submit = document.getElementById('submitButton');
+      submit.onclick = function () {
+        console.log("Submitting post.");
+        writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value)
+      }
+    </script>
 </body>
 
 </html>
