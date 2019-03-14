@@ -168,7 +168,8 @@ input{
 #tagsLabel, #tagsText{
   display: none;
 }
-.button {
+
+/*.button {
   background-color: orangered;
   border: none;
   color: white;
@@ -180,6 +181,20 @@ input{
   margin: 10px;
   cursor: pointer;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}*/
+
+.button{
+  background-color: white;
+  color: black;
+  padding: 0 23px;
+  border-radius: 60px;
+  font-size: 60px;
+  margin: 10px;
+  border: none;
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+  font-family: 'Righteous';
 }
 
 #submitButton{
