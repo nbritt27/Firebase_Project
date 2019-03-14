@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="resetstyle.css">
   <link rel="stylesheet" href="home.css">
   <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lilita+One" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
   <script>
     // Initialize Firebase
@@ -446,7 +447,7 @@
         <h3 id="tagsLabel" style="display: none">Tags</h3>
         <input id="tagsText" type="text" name="" value="" style="display: none">
 
-        <button id="submitButton" type="button">Post It!</button>
+        <button id="submitButton" type="button"></button>
       </div>
     </div>
 
@@ -467,6 +468,7 @@
         modal.style.display = "block";
         document.getElementById("tagsText").style.display = "none";
         document.getElementById("tagsLabel").style.display = "none";
+        document.getElementById("submitButton").innerHTML = "Post It!";
         var modalHeader = document.getElementById("headerTitle");
         modalHeader.innerHTML = "Add Post";
         var title = document.getElementById("titleLabel");
@@ -479,6 +481,7 @@
         modal.style.display = "block";
         document.getElementById("tagsText").style.display = "block";
         document.getElementById("tagsLabel").style.display = "block";
+        document.getElementById("submitButton").innerHTML = "Create It!";
         var modalHeader = document.getElementById("headerTitle");
         modalHeader.innerHTML = "Add Group";
         var groupName = document.getElementById("titleLabel");
