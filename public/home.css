@@ -165,7 +165,9 @@ input{
   text-decoration: none;
   font-family: "Arial", Helvetica, sans-serif;
 }
-
+#tagsLabel, #tagsText{
+  display: none;
+}
 .button {
   background-color: orangered;
   border: none;
