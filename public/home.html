@@ -369,31 +369,25 @@
   </script>
 </head>
 
+<nav class="nav-login">
+  <ul>
+    <li><a href="home.html">Home</a></li>
+    <li><a href="groups.html">Groups</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Profile</a></li>
+
+    <li>
+      <div id="firebaseui-auth-container"></div>
+    </li>
+    <li>
+      <div><img id="user-pic"
+          src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png"
+          style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div>
+    </li>
+  </ul>
+</nav>
+
 <body>
-  <nav class="nav-login">
-    <ul>
-      <li><a href="home.html">Home</a></li>
-      <li><a href="groups.html">Groups</a></li>
-      <li><a href="#">Contact</a></li>
-      <li><a href="login.html">Profile</a></li>
-
-      <li>
-        <div id="firebaseui-auth-container"></div>
-      </li>
-      <li>
-        <div><img id="user-pic"
-            src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png"
-            style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div>
-      </li>
-    </ul>
-  </nav>
-
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
   <button type="button" class="button" id="addPost">Add Post</button>
   <button type="button" class="button" onclick="loadFeed()">Refresh Feed</button>
   <button type="button" class="button" id="addGroup">Create Group</button>
