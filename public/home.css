@@ -38,8 +38,13 @@ body {
 }
 
 #postData{
+  height: auto;
   width: auto;
   margin: 5px;
+}
+
+#postData img{
+  display: none;
 }
 
 #postDiv{
@@ -56,6 +61,11 @@ body {
 
   display: grid;
   grid-template-columns: auto;
+}
+
+#imageElement {
+  width: 50%;
+  height: 50%;
 }
 
 #datePosted{

@@ -107,19 +107,22 @@
           userLabel.innerHTML = childData["author"];
           userInfo.appendChild(userLabel);
           var imageElement=document.createElement("img");
+          imageElement.id = "imageElement";
 
           try{
             imageElement.id="imageElement";
+
             firebase.storage().ref().child(childData["postId"] + "/" + childData["imagename"]).getDownloadURL().then(function(url){
               var test=url;
               imageElement.src=test;
             });
 
+            imageElement.style.display="block";
           }
           catch(error){
             console.log("error when loading the image: " + error);
           }
-          
+
           var titleText = document.createElement("h1");
           titleText.id = "titleElement";
           titleText.innerHTML = childData["title"];
@@ -147,7 +150,7 @@
                 var userInfo = userlikeSnapshot.val();
                 //console.log("USER INFO IS EQUAL TO " + userInfo["userId"]);
                 if (userInfo["userId"] == userRef.uid) {
-                  console.log("This user cannot like the post!!!!!!!");
+                  //console.log("This user cannot like the post!!!!!!!");
                   canLike = false;
                 }
               });
@@ -503,7 +506,7 @@
         body.innerHTML = "Body"
         var fileLabel=document.getElementById("fileLabel");
         fileLabel.innerHTML="Image (optional)";
-        
+
       }
 
       groupButton.onclick = function () {
