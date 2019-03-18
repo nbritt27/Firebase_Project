@@ -258,6 +258,7 @@
 
 
     function checkForTags(inputText, postInfo, postKey) {
+      console.log("Checking for tags");
       console.log(inputText);
       for (var i = 0; i < inputText.length; i++) {
         if (inputText[i][0] == "@") {
@@ -310,6 +311,7 @@
     var addGroupPresent = false;
     function writeNewGroup(title, description, tag) {
       //console.log("Trying to write new post");
+      /*
       document.body.removeChild(document.getElementById("titleLabel"));
       document.body.removeChild(document.getElementById("titleText"));
       document.body.removeChild(document.getElementById("bodyLabel"));
@@ -317,6 +319,7 @@
       document.body.removeChild(document.getElementById("tagLabel"));
       document.body.removeChild(document.getElementById("tagText"));
       document.body.removeChild(document.getElementById("submitButton"));
+      */
       addGroupPresent = false;
       // A post entry.
       // Get a key for a new Post.
@@ -402,8 +405,7 @@
       }
       
 
-      var title = document.getElementById('titleText').value = "";
-      var text = document.getElementById('bodyText').value = "";
+
       try{
           var storageRef=firebase.storage().ref().child(newPostKey + "/" + image[0].name).put(image[0]).then(function(imageSnapshot){
           console.log("name of the image: " + image[0].name);
@@ -421,6 +423,8 @@
       firebase.database().ref().child('posts/' + newPostKey).update(postData);
       firebase.database().ref().child('user-posts/' + uid + '/' + newPostKey).update(postData);
       checkForTags(text.split(" "), postData, newPostKey);
+      var title = document.getElementById('titleText').value = "";
+      var text = document.getElementById('bodyText').value = "";
     }
     var addPostPresent = false;
     function addPost() {
@@ -528,7 +532,12 @@
         body.innerHTML = "Body"
         var fileLabel=document.getElementById("fileLabel");
         fileLabel.innerHTML="Image (optional)";
-
+        var submit = document.getElementById('submitButton');
+        submit.onclick = function () {
+          console.log("Submitting post.");
+          console.log(document.getElementById("fileOpener").files);
+          writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("fileOpener").files)
+        }
       }
 
       groupButton.onclick = function () {
@@ -546,6 +555,12 @@
 
         //Adding extra imput
         var modalContainer = document.getElementById("modal-Body");
+        var submit = document.getElementById('submitButton');
+        submit.onclick = function () {
+          console.log("Submitting group.");
+          //console.log(document.getElementById("fileOpener").files);
+          writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagsText").value);
+        }
         /*
         var tagLabel = document.createElement("h3");
         tagLabel.innerHTML = "Tag"
@@ -570,12 +585,7 @@
         }
       }
 
-      var submit = document.getElementById('submitButton');
-      submit.onclick = function () {
-        console.log("Submitting post.");
-        console.log(document.getElementById("fileOpener").files);
-        writeNewPost(userRef.uid, userRef.displayName, userRef.photoURL, document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("fileOpener").files)
-      }
+
     </script>
 </body>
 
