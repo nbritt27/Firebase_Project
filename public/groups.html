@@ -21,6 +21,8 @@
   </script>
   <script type="text/javascript">
     var userRef;
+    var currentposts = {};
+
     initApp = function () {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -78,6 +80,7 @@
     window.addEventListener('load', function () {
       initApp();
       loadGroups();
+      loadFeed();
     });
     function addUserToGroup(tagId) {
       var leadsRef = firebase.database().ref().child('groups').child(tagId);
@@ -189,20 +192,21 @@
         });
       });
     }
-    /*
+
     function loadFeed() {
       console.log("running loadFeed");
       removeFeedNodes();
       //var postContainer = document.getElementById("postContainer");
+      //var storage=firebase.storage().ref().child()
       var leadsRef = firebase.database().ref().child('posts');
       leadsRef.on('value', function (snapshot) {
         removeFeedNodes();
         var postContainer = document.createElement('div');
+        console.log("loading values");
         postContainer.id = "postContainer";
         snapshot.forEach(function (childSnapshot) {
           var childData = childSnapshot.val();
           //console.log(childData);
-
           var postDiv = document.createElement('div');
           postDiv.id = "postDiv";
           var userInfo = document.createElement("div");
@@ -218,6 +222,30 @@
           userLabel.id = "userLabel";
           userLabel.innerHTML = childData["author"];
           userInfo.appendChild(userLabel);
+          var imageElement = document.createElement("img");
+          imageElement.id = "imageElement";
+
+          try {
+            imageElement.id = "imageElement";
+
+            firebase.storage().ref().child(childData["postId"] + "/" + childData["imagename"]).getDownloadURL().then(function (url) {
+              var test = url;
+              imageElement.src = test;
+            });
+            imageElement.style.margin = "auto";
+            imageElement.style.width = "200px";
+            imageElement.style.height = "200px";
+            imageElement.style.display = "block";
+          }
+          catch (error) {
+            console.log("error when loading the image: " + error);
+            imageElement.remove();
+          }
+          if (childData["imagename"] === "null") {
+            console.log("the name is null");
+            imageElement.style.display = "none";
+          }
+
           var titleText = document.createElement("h1");
           titleText.id = "titleElement";
           titleText.innerHTML = childData["title"];
@@ -235,15 +263,79 @@
           var likeButton = document.createElement("button");
           likeButton.id = "likeButton";
           likeButton.innerHTML = ":)";
+          var canLike = true;
+
+          try {
+            childSnapshot.forEach(function (childchildSnapshot) {
+              var info = childchildSnapshot.val();
+              //console.log("FIRST RUN OF THE TEST RETURNED " + info["userId"]);
+              childchildSnapshot.forEach(function (userlikeSnapshot) {
+                var userInfo = userlikeSnapshot.val();
+                //console.log("USER INFO IS EQUAL TO " + userInfo["userId"]);
+                if (userInfo["userId"] == userRef.uid) {
+                  //console.log("This user cannot like the post!!!!!!!");
+                  canLike = false;
+                }
+              });
+
+            });
+          }
+          catch (error) {
+            console.log(error);
+          }
+
+          try {
+            if (childData["numLikes"] == null) {
+              currentposts[childData["postId"]] = 0;
+
+            }
+            else {
+              currentposts[childData["postId"]] = childData["numLikes"];
+            }
+
+          }
+          catch (error) {
+            console.log("Error message in loadfeed is " + error);
+            currentposts[childData["postId"]] = 1;
+          }
+          console.log("*** the value for the likedata is equal to " + childData["likedata"]);
+          likeButton.addEventListener("click", function () { likePost(childData["postId"], userRef.uid, canLike) });
+          var likeText = document.createElement("p");
+          likeText.id = "likeText";
+          try {
+            if (childData["numLikes"] == null) {
+              likeText.innerHTML = "0"
+
+            }
+            else {
+              likeText.innerHTML = childData["numLikes"];
+            }
+
+          }
+          catch (error) {
+            console.log("Error message in loadfeed is " + error);
+            likeText.innerHTML = "0"
+          }
+
+          console.log("post id is equal to: " + childData["postId"]);
+          postData.appendChild(imageElement);
           postData.appendChild(bodyText);
+
           postData.appendChild(likeButton);
+          postData.appendChild(likeText);
+
           postDiv.appendChild(userInfo);
           postDiv.appendChild(postData);
           postContainer.prepend(postDiv);
           document.body.appendChild(postContainer);
         });
       });
-    }*/
+    }
+    function parseDate(input) {
+      var parts = input.match(/(\d+)/g);
+      // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+      return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
+    }
     function removeGroupNodes() {
       while (true) {
         try {
@@ -261,14 +353,23 @@
       while (true) {
         try {
           document.body.removeChild(document.getElementById("postContainer"));
-
         }
         catch (error) {
           console.log("found an error");
           break;
         }
-
       }
+      /*
+      console.log("Trying to remove feeds");
+      while(true){
+        try {
+          console.log("Existing element: " + document.getElementById("postDiv"));
+          document.body.removeChild(document.getElementById("postDiv"));
+        } catch (error) {
+          break;
+        }
+      }
+      */
     }
   </script>
 </head>
@@ -293,6 +394,8 @@
   </nav>
 
   <br>
+  <div id="postContainer"></div>
+
   <br>
   <br>
   <br>
