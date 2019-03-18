@@ -4,6 +4,8 @@ body {
   color: black;
 }
 
+
+
 #postContainer{
   display: grid;
   grid-gap: 10px;
