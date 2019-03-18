@@ -185,6 +185,8 @@
 
           //groupDiv.appendChild(userInfo);
           //groupDiv.appendChild(postData);
+          loadFeed(childData["id"], groupDiv);
+
           groupContainer.appendChild(groupDiv);
           document.body.appendChild(groupContainer);
           //loadFeed();
@@ -193,12 +195,12 @@
       });
     }
 
-    function loadFeed() {
+    function loadFeed(childDirectory, currentDiv) {
       console.log("running loadFeed");
       removeFeedNodes();
       //var postContainer = document.getElementById("postContainer");
       //var storage=firebase.storage().ref().child()
-      var leadsRef = firebase.database().ref().child('posts');
+      var leadsRef = firebase.database().ref().child('groups').child(childDirectory).child("posts");
       leadsRef.on('value', function (snapshot) {
         removeFeedNodes();
         var postContainer = document.createElement('div');
@@ -327,7 +329,8 @@
           postDiv.appendChild(userInfo);
           postDiv.appendChild(postData);
           postContainer.prepend(postDiv);
-          document.body.appendChild(postContainer);
+          currentDiv.appendChild(postContainer);
+          
         });
       });
     }
