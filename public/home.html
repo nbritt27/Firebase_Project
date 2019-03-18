@@ -116,11 +116,18 @@
               var test=url;
               imageElement.src=test;
             });
-
+            imageElement.style.margin="auto";
+            imageElement.style.width="200px";
+            imageElement.style.height="200px";
             imageElement.style.display="block";
           }
           catch(error){
             console.log("error when loading the image: " + error);
+            imageElement.remove();
+          }
+          if(childData["imagename"]==="null"){
+            console.log("the name is null");
+            imageElement.style.display="none";
           }
 
           var titleText = document.createElement("h1");
@@ -368,17 +375,32 @@
       // A post entry.
       var modal = document.getElementById('myModal').style.display = "none";
       var newPostKey = firebase.database().ref().child('posts').push().key;
-
-      var postData = {
-        author: uname,
-        uid: uid,
-        body: text,
-        title: heading,
-        date: new Date(),
-        picturesrc: pic,
-        postId: newPostKey,
-        imagename: image[0].name
-      };
+      try{
+        console.log(image[0].name);
+        var postData = {
+          author: uname,
+          uid: uid,
+          body: text,
+          title: heading,
+          date: new Date(),
+          picturesrc: pic,
+          postId: newPostKey,
+          imagename: image[0].name
+        };
+      }
+      catch (error){
+        var postData = {
+          author: uname,
+          uid: uid,
+          body: text,
+          title: heading,
+          date: new Date(),
+          picturesrc: pic,
+          postId: newPostKey,
+          imagename: "null"
+        };
+      }
+      
 
       var title = document.getElementById('titleText').value = "";
       var text = document.getElementById('bodyText').value = "";
