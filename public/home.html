@@ -403,7 +403,7 @@
           imagename: "null"
         };
       }
-      
+
 
 
       try{
@@ -560,6 +560,7 @@
           console.log("Submitting group.");
           //console.log(document.getElementById("fileOpener").files);
           writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagsText").value);
+          modal.style.display = "none";
         }
         /*
         var tagLabel = document.createElement("h3");
