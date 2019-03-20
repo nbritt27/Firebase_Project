@@ -153,7 +153,15 @@
           likeButton.id = "likeButton";
           likeButton.innerHTML = ":)";
           var canLike = true;
+          var commentButton=document.createElement("button");
+          commentButton.id="commentButton";
+          commentButton.innerHTML="Comment";
+          var canAddComment=true;
+          if(canAddComment){
+            commentButton.addEventListener("click", function () { if(canAddComment){showCommentBox(childData["postId"], postDiv);} canAddComment=false; });
 
+          }
+          
           try {
             childSnapshot.forEach(function (childchildSnapshot) {
               var info = childchildSnapshot.val();
@@ -210,6 +218,7 @@
           postData.appendChild(imageElement);
           postData.appendChild(bodyText);
 
+          postData.appendChild(commentButton);
           postData.appendChild(likeButton);
           postData.appendChild(likeText);
 
@@ -219,6 +228,28 @@
           document.body.appendChild(postContainer);
         });
       });
+    }
+    function showCommentBox(postIdentifier, divelement){
+      console.log("show comment box running");
+      var inputElement=document.createElement("input");
+      inputElement.id="inputCommentElement";
+      var submitCommentButton=document.createElement("button");
+      submitCommentButton.id="submitCommentButton";
+      submitCommentButton.innerHTML="Submit";
+      submitCommentButton.addEventListener('click', function () {submitComment(postIdentifier, inputElement)});
+      divelement.appendChild(inputElement);
+      divelement.appendChild(submitCommentButton);
+    }
+    function submitComment(postid, inputsource){
+      console.log("submit comment function running");
+      var leadsRef = firebase.database().ref().child('posts/' + postid);
+      var updateData={
+        commentBody: inputsource.value,
+        username: userRef.displayName,
+        uid: userRef.uid
+      }
+      leadsRef.child("comments").update(updateData);
+      
     }
     function likePost(postId, userIdentification, canLikePost) {
       console.log("as to whether or not the user can like the post the answer is: " + canLikePost);

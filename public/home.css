@@ -19,9 +19,10 @@ body {
   border: 1px solid white;
 }
 
-#likeButton{
+#likeButton, #commentButton{
   position: relative;
 }
+
 
 #likeText{
   float: left;
@@ -256,7 +257,35 @@ input{
   text-align: center;
   cursor: pointer;
 }
-
+#commentButton{
+  background-color: #0197E8;
+  color: white;
+  height: 25px;
+  width: 75px;
+  padding: 0;
+  border-radius: 50px;
+  border: none;
+  float: right;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 5px;
+}
+#submitCommentButton{
+  background-color: #0197E8;
+  color: white;
+  height: 40px;
+  width: 100%;
+  padding: 0;
+  float: right;
+  text-align: center;
+  cursor: pointer;
+  bottom: 0;
+}
+#inputCommentElement{
+  float: left;
+  width: 90%;
+  margin: 0 5%;
+}
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
