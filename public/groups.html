@@ -120,8 +120,8 @@
           //userPicture.src=childData["picturesrc"];
           //userInfo.appendChild(userPicture);
           var groupName = document.createElement("a");
-          groupName.href = "/group1"
-          groupName.id = "userLabel";
+          groupName.href = "/group1";
+          groupName.id = "groupName";
           groupName.innerHTML = childData["title"];
           groupDiv.appendChild(groupName);
           //var titleText=document.createElement("h1");
@@ -330,7 +330,7 @@
           postDiv.appendChild(postData);
           postContainer.prepend(postDiv);
           currentDiv.appendChild(postContainer);
-          
+
         });
       });
     }
@@ -376,34 +376,27 @@
     }
   </script>
 </head>
+<nav class="nav-login">
+  <ul>
+    <li><a href="home.html">Home</a></li>
+    <li><a href="groups.html">Groups</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Profile</a></li>
 
+    <li>
+      <div id="firebaseui-auth-container"></div>
+    </li>
+    <li>
+      <div><img id="user-pic"
+          src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png"
+          style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div>
+    </li>
+  </ul>
+</nav>
 <body>
-  <nav class="nav-login">
-    <ul>
-      <li><a href="home.html">Home</a></li>
-      <li><a href="groups.html">Groups</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="login.html">Profile</a></li>
 
-      <li>
-        <div id="firebaseui-auth-container"></div>
-      </li>
-      <li>
-        <div><img id="user-pic"
-            src="https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png"
-            style="  width: 40px;height: 40px;background-size: 40px;border-radius: 20px; right: 10px; top: 10px;"></div>
-      </li>
-    </ul>
-  </nav>
 
-  <br>
   <div id="postContainer"></div>
-
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 </body>
 
 </html>

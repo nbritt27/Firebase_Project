@@ -4,15 +4,11 @@ body {
   color: black;
 }
 
-
-
 #postContainer{
+  margin: 0 5px;
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 7px;
   grid-template-columns: auto auto auto auto;
-  padding-right: 10px;
-  padding-left: 10px;
-  padding-bottom: 10px;
 }
 
 #userInfo{
@@ -22,9 +18,11 @@ body {
   border-radius: 10px;
   border: 1px solid white;
 }
+
 #likeButton{
-  float: left;
+  position: relative;
 }
+
 #likeText{
   float: left;
 }
@@ -54,7 +52,6 @@ body {
   font-size: 16px;
   border-radius: 10px;
   border: 2px solid gray;
-  width: 24vw;
   min-width: 250px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   overflow: auto;
