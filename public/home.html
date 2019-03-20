@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lilita+One" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
   <script>
     // Initialize Firebase
     var config = {
@@ -102,9 +104,12 @@
           userPicture.id = "user-feed-pic";
           userPicture.src = childData["picturesrc"];
           userInfo.appendChild(userPicture);
-          var userLabel = document.createElement("h2");
+          var userLabel = document.createElement("a");
           userLabel.id = "userLabel";
           userLabel.innerHTML = childData["author"];
+          userLabel.href="profile.html/?uid=" + childData["uid"];
+          userLabel.style.color="black";
+          
           userInfo.appendChild(userLabel);
           var imageElement=document.createElement("img");
           imageElement.id = "imageElement";
