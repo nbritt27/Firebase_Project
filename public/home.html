@@ -93,6 +93,14 @@
         snapshot.forEach(function (childSnapshot) {
           var childData = childSnapshot.val();
           //console.log(childData);
+          try{
+            console.log("The childdata element for comments is: " + childData["comments"]["commentBody"]);
+
+          }
+          catch (error){
+            console.log("Error printing comments is: " + error);
+          }
+          var commentData=[];
           var postDiv = document.createElement('div');
           postDiv.id = "postDiv";
           var userInfo = document.createElement("div");
@@ -166,12 +174,31 @@
             childSnapshot.forEach(function (childchildSnapshot) {
               var info = childchildSnapshot.val();
               //console.log("FIRST RUN OF THE TEST RETURNED " + info["userId"]);
+
+
+
+
+              /**********Note: the userInfo box is also used for comments because it accesses the farther branches of the json tree********/
               childchildSnapshot.forEach(function (userlikeSnapshot) {
+                //console.log("childchildsnapshot returned a value of " + info["comments"]);
                 var userInfo = userlikeSnapshot.val();
                 //console.log("USER INFO IS EQUAL TO " + userInfo["userId"]);
                 if (userInfo["userId"] == userRef.uid) {
                   //console.log("This user cannot like the post!!!!!!!");
                   canLike = false;
+                }
+                console.log("comment body returns: " + userInfo["commentBody"]);
+                try{
+                  if(userInfo["username"]!=undefined){
+                    var commentParagraph=document.createElement("p");
+                    commentParagraph.id="commentParagraph";
+                    commentParagraph.innerHTML=userInfo["username"] + ": " + userInfo["commentBody"];
+                    commentData.push(commentParagraph);
+                  }
+
+                }
+                catch(error){
+                  console.log(error);
                 }
               });
 
@@ -215,13 +242,19 @@
           }
 
           console.log("post id is equal to: " + childData["postId"]);
+          
           postData.appendChild(imageElement);
           postData.appendChild(bodyText);
 
           postData.appendChild(commentButton);
           postData.appendChild(likeButton);
           postData.appendChild(likeText);
+          postData.appendChild(document.createElement("br"));
+          postData.appendChild(document.createElement("br"));
 
+          for(var i=0;i<commentData.length;i++){
+            postData.appendChild(commentData[i]);
+          }
           postDiv.appendChild(userInfo);
           postDiv.appendChild(postData);
           postContainer.prepend(postDiv);
@@ -243,12 +276,14 @@
     function submitComment(postid, inputsource){
       console.log("submit comment function running");
       var leadsRef = firebase.database().ref().child('posts/' + postid);
+      var newPostKey = firebase.database().ref().child('posts/' + postid).push().key;
+
       var updateData={
         commentBody: inputsource.value,
         username: userRef.displayName,
         uid: userRef.uid
       }
-      leadsRef.child("comments").update(updateData);
+      leadsRef.child("comments/" + newPostKey).update(updateData);
       
     }
     function likePost(postId, userIdentification, canLikePost) {
