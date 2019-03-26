@@ -1,6 +1,7 @@
 #groupContainer{
+  display: grid;
   grid-gap: 10px;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto;
 }
 
 #groupDiv{
@@ -21,8 +22,6 @@ body {
   color: black;
   margin: 10px 10px;
 }
-
-
 
 #postContainer{
   display: grid;

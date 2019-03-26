@@ -105,8 +105,10 @@ body {
 
 #userLabel{
   float: left;
+  margin: 21px 0;
   font-family: 'Lilita One';
   font-weight: 100;
+  text-decoration: none;
 }
 
 #user-feed-pic{
@@ -256,6 +258,8 @@ input{
   float: right;
   text-align: center;
   cursor: pointer;
+  font-family: 'Lilita One';
+  font-size: 18px;
 }
 #commentButton{
   background-color: #0197E8;
@@ -269,6 +273,8 @@ input{
   text-align: center;
   cursor: pointer;
   margin-left: 5px;
+  font-family: 'Lilita One';
+  font-size: 17px;
 }
 #submitCommentButton{
   background-color: #0197E8;
