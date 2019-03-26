@@ -267,6 +267,20 @@ input{
   font-family: 'Lilita One';
   font-size: 18px;
 }
+#followButton{
+  background-color: #0197E8;
+  color: white;
+  height: 25px;
+  width: 25px;
+  padding: 0;
+  border-radius: 50px;
+  border: none;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Lilita One';
+  font-size: 18px;
+}
 #commentButton{
   background-color: #0197E8;
   color: white;

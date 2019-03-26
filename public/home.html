@@ -119,6 +119,11 @@
           userLabel.style.color="black";
 
           userInfo.appendChild(userLabel);
+          var followButton=document.createElement("button");
+          followButton.id="followButton";
+          followButton.innerHTML="+";
+          followButton.addEventListener("click", function () {followUser(childData["uid"])});
+          userInfo.appendChild(followButton);
           var imageElement=document.createElement("img");
           imageElement.id = "imageElement";
 
@@ -262,6 +267,17 @@
           document.body.appendChild(postContainer);
         });
       });
+    }
+    function followUser(userid){
+      var postData={
+        uid: userRef.uid
+      }
+      var postDataFollowing={
+        uid: userid
+      }
+      firebase.database().ref().child('users'+userid).child("followers").child(userRef.uid).update(postData);
+      firebase.database().ref().child('users'+userRef.uid).child("following").child(userid).update(postDataFollowing);
+
     }
     function showCommentBox(postIdentifier, divelement){
       console.log("show comment box running");
