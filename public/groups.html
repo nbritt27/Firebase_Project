@@ -119,11 +119,15 @@
           //userPicture.id="user-feed-pic";
           //userPicture.src=childData["picturesrc"];
           //userInfo.appendChild(userPicture);
+          var groupTitleDiv=document.createElement("div");
+          groupTitleDiv.id="groupTitleDiv";
+          
           var groupName = document.createElement("a");
           groupName.href = "/group1";
           groupName.id = "groupName";
           groupName.innerHTML = childData["title"];
-          groupDiv.appendChild(groupName);
+          groupTitleDiv.appendChild(groupName);
+          groupDiv.appendChild(groupTitleDiv);
           //var titleText=document.createElement("h1");
           //titleText.id="titleElement";
           //titleText.innerHTML=childData["title"];
@@ -137,13 +141,13 @@
           groupTag.id = "groupTag";
           groupTag.innerHTML = "@" + childData["tag"];
           groupDiv.appendChild(groupTag);
-
+          var buttonDiv=document.createElement("div");
+          buttonDiv.id="buttonDiv";
           var groupJoin = document.createElement("button");
           groupJoin.id = "groupJoin";
           groupJoin.innerHTML = "Join";
           groupJoin.onclick = function () { addUserToGroup(childData["id"]) };
-          groupDiv.append(groupJoin);
-
+          buttonDiv.appendChild(groupJoin);
           var currentUsersLabel = document.createElement("p");
           currentUsersLabel.id = "currentUsersLabel";
           currentUsersLabel.innerHTML = "Current Members: ";
@@ -186,6 +190,7 @@
           //groupDiv.appendChild(userInfo);
           //groupDiv.appendChild(postData);
           loadFeed(childData["id"], groupDiv);
+          groupDiv.append(buttonDiv);
 
           groupContainer.appendChild(groupDiv);
           document.body.appendChild(groupContainer);
