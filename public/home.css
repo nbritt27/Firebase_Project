@@ -5,7 +5,7 @@ body {
 }
 
 #postContainer{
-  margin: 0 5px;
+  margin: 0 5px 5px;
   display: grid;
   grid-gap: 7px;
   grid-template-columns: auto auto auto auto;
@@ -23,10 +23,16 @@ body {
   position: relative;
 }
 
+#commentParagraph{
+  font-family: 'Righteous';
+  font-size: 15px;
+}
 
 #likeText{
   float: left;
+  font-family: 'Lilita One';
 }
+
 #userInfo img{
   float: left;
   margin: 10px 10px;
@@ -280,12 +286,16 @@ input{
   background-color: #0197E8;
   color: white;
   height: 40px;
-  width: 100%;
-  padding: 0;
-  float: right;
+  width: 97%;
+  float: center;
   text-align: center;
   cursor: pointer;
   bottom: 0;
+  border-width: 1px;
+  border-radius: 50px;
+  font-family: 'Lilita One';
+  font-size: 20px;
+  margin: 3px auto;
 }
 #inputCommentElement{
   float: left;

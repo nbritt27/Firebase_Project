@@ -243,7 +243,7 @@
           }
 
           console.log("post id is equal to: " + childData["postId"]);
-          
+
           postData.appendChild(imageElement);
           postData.appendChild(bodyText);
 
@@ -269,7 +269,7 @@
       inputElement.id="inputCommentElement";
       var submitCommentButton=document.createElement("button");
       submitCommentButton.id="submitCommentButton";
-      submitCommentButton.innerHTML="Submit";
+      submitCommentButton.innerHTML="Submit!";
       submitCommentButton.addEventListener('click', function () {submitComment(postIdentifier, inputElement)});
       divelement.appendChild(inputElement);
       divelement.appendChild(submitCommentButton);
@@ -285,7 +285,7 @@
         uid: userRef.uid
       }
       leadsRef.child("comments/" + newPostKey).update(updateData);
-      
+
     }
     function likePost(postId, userIdentification, canLikePost) {
       console.log("as to whether or not the user can like the post the answer is: " + canLikePost);
