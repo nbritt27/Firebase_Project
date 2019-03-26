@@ -109,7 +109,7 @@
           userLabel.innerHTML = childData["author"];
           userLabel.href="profile.html/?uid=" + childData["uid"];
           userLabel.style.color="black";
-          
+
           userInfo.appendChild(userLabel);
           var imageElement=document.createElement("img");
           imageElement.id = "imageElement";
@@ -120,6 +120,7 @@
             firebase.storage().ref().child(childData["postId"] + "/" + childData["imagename"]).getDownloadURL().then(function(url){
               var test=url;
               imageElement.src=test;
+              postDiv.style.gridArea="span 2";
             });
             imageElement.style.margin="auto";
             imageElement.style.width="200px";
@@ -127,7 +128,7 @@
             imageElement.style.display="block";
           }
           catch(error){
-            console.log("error when loading the image: " + error);
+            //console.log("error when loading the image: " + error);
             imageElement.remove();
           }
           if(childData["imagename"]==="null"){
@@ -161,7 +162,7 @@
             commentButton.addEventListener("click", function () { if(canAddComment){showCommentBox(childData["postId"], postDiv);} canAddComment=false; });
 
           }
-          
+
           try {
             childSnapshot.forEach(function (childchildSnapshot) {
               var info = childchildSnapshot.val();
@@ -249,7 +250,7 @@
         uid: userRef.uid
       }
       leadsRef.child("comments").update(updateData);
-      
+
     }
     function likePost(postId, userIdentification, canLikePost) {
       console.log("as to whether or not the user can like the post the answer is: " + canLikePost);
