@@ -46,7 +46,6 @@
              age: userAge,
              bio: userBio
    });
-             console.log("Trying to add the data");
              user.getIdToken().then(function(accessToken) {
                document.getElementById('sign-in-status').textContent = 'Signed in';
                document.getElementById('sign-in').textContent = 'Sign out';
@@ -76,10 +75,8 @@
 
        window.addEventListener('load', function() {
          initApp()
-         console.log(document.getElementById("ageText").value);
        });
        function addPost(){
-         console.log("Trying to add post");
 
        }
      </script>

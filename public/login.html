@@ -90,6 +90,14 @@
       leadsRef.on('value', function (snapshot) {
         //snapshot.forEach(function (childSnapshot) {
           var childData = snapshot.val();
+          var followersDict=childData["followers"];
+          var followingDict=childData["following"];
+          console.log(followersDict);
+          console.log(Object.keys(followersDict).length);
+          //console.log("A call to followers data returns " + childData["followers"].length);
+          document.getElementById("followersData").innerHTML=Object.keys(followersDict).length;
+          document.getElementById("followingData").innerHTML=Object.keys(followingDict).length;
+
           document.getElementById("ageText").value=childData["age"];
           document.getElementById("bioText").value=childData["bio"];
 
@@ -120,6 +128,7 @@
       removeFeedNodes();
 
 
+
       var leadsRef = firebase.database().ref().child('user-posts').child(userRef.uid);
       var postContainer = document.createElement("postContainer");
       postContainer.id = "postContainer";
@@ -129,7 +138,6 @@
         snapshot.forEach(function (childSnapshot) {
           removeFeedNodes();
           var childData = childSnapshot.val();
-          console.log(childData);
           var postDiv = document.createElement('div');
           postDiv.id = "postDiv";
           var userInfo = document.createElement("div");
@@ -159,6 +167,7 @@
           document.body.appendChild(postContainer);
           //console.log(childData["body"])
         });
+        
       });
     }
 
@@ -219,8 +228,8 @@
         </th>
       </tr>
       <tr>
-        <th>0</th>
-        <th>0</th>
+        <th id="followersData">0</th>
+        <th id="followingData">0</th>
       </tr>
     </table>
   </div>
