@@ -5,8 +5,8 @@ body {
   arial; font-size: 16px;
 }
 #table{
-  display: inline-block; 
-  margin-left: 38%; 
+  display: inline-block;
+  margin-left: 38%;
   margin-right: 50%;
   font-size: 32px;
 }
@@ -16,17 +16,17 @@ th,td{
 
 }
 #informationList{
-  display: block; 
-  margin-left: auto; 
+  display: block;
+  margin-left: auto;
   margin-right: auto;
   font-size: 32px;
 }
 h1{
-  display: block; 
-  margin-left: auto; 
+  display: block;
+  margin-left: auto;
   margin-right: auto;
   font-size: 32px;
-  
+
 }
 #titleLabel, #titleText, #bodyLabel, #bodyText{
   margin: 10px;
@@ -43,7 +43,7 @@ h1{
   width: 30%;
   margin: 20px;
   float: left;
-  
+
 }
 .nav-main {
   position: fixed;
@@ -125,7 +125,7 @@ h1{
 }
 #user-feed-pic{
   top: -3px;
-  
+
   /*background-image: url('/images/profile_placeholder.png');
   */
   background-repeat: no-repeat;
@@ -193,8 +193,8 @@ h1{
   text-transform: uppercase;
   text-decoration: none;
   color: #333;
-  font-family:
-  arial; font-size: 16px;
+  font-family: 'Lilita One';
+  font-size: 20px;
   padding: 0px 15px;
 }
 
