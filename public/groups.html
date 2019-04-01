@@ -6,6 +6,7 @@
   <title>Groups</title>
   <link rel="stylesheet" href="resetstyle.css">
   <link rel="stylesheet" href="groups.css">
+  <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lilita+One" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
   <script>
@@ -239,10 +240,9 @@
             firebase.storage().ref().child(childData["postId"] + "/" + childData["imagename"]).getDownloadURL().then(function (url) {
               var test = url;
               imageElement.src = test;
+              postDiv.style.gridArea="span 2";
             });
             imageElement.style.margin = "auto";
-            imageElement.style.width = "200px";
-            imageElement.style.height = "200px";
             imageElement.style.display = "block";
           }
           catch (error) {
