@@ -205,6 +205,12 @@
             likeButton.id = "likeButton";
             likeButton.innerHTML = ":)";
             var canLike = true;
+
+            let deletePost = document.createElement("span");
+            deletePost.id = 'deletePost';
+            deletePost.textContent = "x";
+            userInfo.appendChild(deletePost);
+
             var commentButton = document.createElement("button");
             commentButton.id = "commentButton";
             commentButton.innerHTML = "Comment";
@@ -323,6 +329,7 @@
       console.log("show comment box running");
       var inputElement = document.createElement("input");
       inputElement.id = "inputCommentElement";
+      inputElement.setAttribute("maxlength", 20);
       var submitCommentButton = document.createElement("button");
       submitCommentButton.id = "submitCommentButton";
       submitCommentButton.innerHTML = "Submit!";

@@ -3,6 +3,18 @@ body {
   background-color: #f1f1f1;
 }
 
+#deletePost{
+    top: 10px;
+    right: 50px;
+    background: rgba(255,255,255);
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    padding: 10px 0;
+    font-weight:  bold;
+    cursor:  pointer;
+}
+
 #postContainer{
   margin: 0 5px 5px;
   display: grid;
@@ -62,7 +74,7 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   overflow: auto;
 
-  display: grid;
+  display: inline-block;
   grid-template-columns: auto;
 }
 
@@ -74,6 +86,7 @@ body {
 
 #datePosted{
   padding: 1px 1px;
+  top: 0;
   float: right;
   font-family: 'Lilita One';
 }
