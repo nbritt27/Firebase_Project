@@ -42,7 +42,7 @@
           var userBio = user.bio
           this.userPic.src = photoURL;
           try {
-            firebase.database().ref().child('users' + uid).set({
+            firebase.database().ref().child('users' + uid).update({
               username: displayName,
               email: email,
               profile_picture: photoURL,
@@ -149,8 +149,14 @@
                 addToFollowingButton.innerHTML = "Add";
                 addToFollowingButton.addEventListener("click", function () { followUser(childData["userId"]) })
                 personDiv.appendChild(usersName);
+                var moreInfoButton = document.createElement("button");
+                moreInfoButton.id = "moreInfoButton";
+                moreInfoButton.innerHTML = "More"
+                moreInfoButton.addEventListener("click", function () { showMoreInfo(childData["userId"], personDiv) });
+                moreInfoButton.style.width="17%";
                 console.log(personDiv);
                 personDiv.appendChild(addToFollowingButton);
+                personDiv.appendChild(moreInfoButton);
                 document.body.appendChild(personDiv);
               }
 
@@ -163,6 +169,54 @@
       });
 
       searching = false;
+
+    }
+    function showMoreInfo(userid, divtoappend) {
+      console.log("running showMoreInfo");
+      var showInfo = true;
+      var leadsRef = firebase.database().ref();
+      leadsRef.on('value', function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          if (showInfo) {
+
+            var childData = childSnapshot.val();
+            try {
+              if (childData["userId"] === userid) {
+                try {
+                  var ageParagraph = document.createElement("p");
+                  ageParagraph.id = "ageParagraph";
+                  ageParagraph.innerHTML = ("age: " + childData["age"]);
+                  var bioParagraph = document.createElement("p");
+                  bioParagraph.id = "bioParagraph";
+                  bioParagraph.innerHTML = "bio: " + childData["bio"]
+                  divtoappend.appendChild(document.createElement("br"));
+                  divtoappend.appendChild(ageParagraph);
+                  divtoappend.appendChild(bioParagraph);
+                }
+                catch (error) {
+                  console.log(error);
+                  var errorParagraph = document.createElement("p");
+                  errorParagraph.id = "ageParagraph";
+                  errorParagraph.innerHTML = "The user has not provided any more information";
+                  divtoappend.appendChild(document.createElement("br"));
+                  divtoappend.appendChild(errorParagraph);
+                }
+                showInfo = false;
+
+              }
+              console.log("chidldata in the show more info function " + childData);
+
+            }
+            catch (error) {
+              console.log(error);
+            }
+
+          }
+        });
+
+        showInfo = false;
+
+      });
 
     }
     function followUser(userid) {
@@ -184,7 +238,7 @@
     <ul>
       <li><a href="home.html">Home</a></li>
       <li><a href="groups.html">Groups</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="contact.html">Find</a></li>
       <li><a href="login.html">Profile</a></li>
 
       <li>

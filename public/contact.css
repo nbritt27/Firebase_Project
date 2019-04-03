@@ -4,6 +4,7 @@ body {
     color: black;
   }
   
+  
   #postContainer{
     margin: 0 5px 5px;
     display: grid;
@@ -111,15 +112,29 @@ body {
   
   #usersName{
     float: left;
-    margin: 21px 0;
+    margin: 10px;
     font-family: 'Lilita One';
     font-weight: 100;
     text-decoration: none;
   }
-  
+  #ageParagraph{
+    float: center;
+    margin: 10px;
+    font-family: 'Lilita One';
+    font-weight: 100;
+    text-decoration: none;
+  }
+  #bioParagraph{
+    float: center;
+    margin: 10px;
+    font-family: 'Lilita One';
+    font-weight: 100;
+    text-decoration: none;
+  }
   #user-feed-pic{
     /*background-image: url('/images/profile_placeholder.png');
     */
+    margin-left: 10px;
     background-repeat: no-repeat;
     width: 40px;
     height: 40px;
@@ -297,7 +312,26 @@ body {
     font-size: 17px;
   }
 h2{
-    font-family: "Arial", Helvetica, sans-serif;
+    font-family: 'Lilita One';
+    font-weight: 100;
+    text-decoration: none;
+    margin: 10px;
+    font-size: 24px;
+}
+#moreInfoButtion{
+    background-color: gray;
+    color: black;
+    height: 40px;
+    width: 7%;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+    bottom: 0;
+    border-width: 1px;
+    border-radius: 50px;
+    font-family: 'Lilita One';
+    font-size: 20px;
+    margin: 3px auto; 
 }
   #addButton{
     background-color: #0197E8;
@@ -314,6 +348,7 @@ h2{
     font-size: 20px;
     margin: 3px auto; 
   }
+  
   button{
     background-color: #0197E8;
     color: white;
@@ -327,12 +362,15 @@ h2{
     border-radius: 50px;
     font-family: 'Lilita One';
     font-size: 20px;
-    margin: 3px auto;
+    margin: 10px;
+  }
+  input{
+      margin: 10px;
   }
   #inputCommentElement{
     float: left;
     width: 90%;
-    margin: 0 5%;
+    margin: 10px;
     font-family: 'Righteous';
   }
   /* The Modal (background) */
