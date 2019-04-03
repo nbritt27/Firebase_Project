@@ -3,6 +3,23 @@ body {
   background-color: #f1f1f1;
 }
 
+#deletePost{
+  position: relative;
+  float: right;
+  right: -70px;
+  bottom: -19px;
+  padding: 10px;
+  background: white;
+  text-align: center;
+  font-weight:  bold;
+  cursor:  pointer;
+  border-radius: 25px;
+}
+
+#deletePost:hover{
+  background: #FF2626;
+}
+
 #postContainer{
   margin: 0 5px 5px;
   display: grid;
@@ -25,6 +42,8 @@ body {
 #commentParagraph{
   font-family: 'Righteous';
   font-size: 15px;
+  width: auto;
+  word-wrap: break-word;
 }
 
 #likeText{
@@ -62,7 +81,7 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   overflow: auto;
 
-  display: grid;
+  display: inline-block;
   grid-template-columns: auto;
 }
 
@@ -74,6 +93,7 @@ body {
 
 #datePosted{
   padding: 1px 1px;
+  top: 0;
   float: right;
   font-family: 'Lilita One';
 }
@@ -130,12 +150,16 @@ body {
   text-align: center;
   font-family: 'Lilita One';
   font-weight: 300;
+  width: auto;
+  word-wrap: break-word;
 }
 
 #bodyElement{
   text-align: center;
   font-family: 'Comic Sans MS';
   font-weight: 100;
+  width: auto;
+  word-wrap: break-word;
 }
 
 .nav-login ul li a:hover {

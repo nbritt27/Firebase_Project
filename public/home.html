@@ -218,6 +218,18 @@
             likeButton.id = "likeButton";
             likeButton.innerHTML = ":)";
             var canLike = true;
+
+            if(childData['uid'] === userRef.uid){
+              let deletePost = document.createElement("span");
+              deletePost.id = 'deletePost';
+              deletePost.textContent = "x";
+              userInfo.appendChild(deletePost);
+              deletePost.addEventListener('click', (e) => {
+                e.stopPropagation();
+                leadsRef.child(childData["postId"]).remove();
+                firebase.database().ref().child("user-posts").child(userRef.uid).child(childData['postId']).remove();
+              })
+            }
             var commentButton = document.createElement("button");
             commentButton.id = "commentButton";
             commentButton.innerHTML = "Comment";
@@ -336,6 +348,7 @@
       console.log("show comment box running");
       var inputElement = document.createElement("input");
       inputElement.id = "inputCommentElement";
+      //inputElement.setAttribute("maxlength", 40);
       var submitCommentButton = document.createElement("button");
       submitCommentButton.id = "submitCommentButton";
       submitCommentButton.innerHTML = "Submit!";
