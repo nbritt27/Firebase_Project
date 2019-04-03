@@ -1,7 +1,6 @@
 body {
   padding-top: 60px;
   background-color: #f1f1f1;
-  color: black;
 }
 
 #postContainer{
@@ -54,7 +53,7 @@ body {
 
 #postDiv{
   color: #333;
-  background-color: white;
+  background-color: #fff;
   font-family: arial;
   font-size: 16px;
   border-radius: 10px;

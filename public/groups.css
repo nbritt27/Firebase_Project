@@ -2,6 +2,8 @@
   display: grid;
   grid-gap: 10px;
   grid-template-columns: auto;
+  margin: 0 5px 5px;
+  padding-top: 5px;
 }
 
 #groupDiv{
@@ -20,15 +22,13 @@
 body {
   padding-top: 60px;
   background-color: #f1f1f1;
-  color: black;
-  margin: 10px 10px;
 }
 
 #postContainer{
   display: grid;
   grid-gap: 10px;
   grid-template-columns: auto auto auto auto;
-  grid-gap: 10px;
+  margin: 5px 5px 0;
 }
 
 #userInfo{
@@ -80,8 +80,8 @@ body {
 }
 
 #imageElement {
-  width: 50%;
-  height: 50%;
+  max-width: 200px;
+  max-height: 200px;
   margin: auto;
 }
 
@@ -142,6 +142,26 @@ body {
   font-family: 'Lilita One';
   font-weight: 300;
 }
+
+#bodyElement, #groupName, #groupTag, #currentUser, #currentUsersLabel{
+  text-align: center;
+  font-family: 'Righteous';
+  font-weight: 100;
+}
+
+#groupTag{
+  padding-bottom: 5px;
+}
+
+#bodyElement{
+  font-style: italic;
+}
+
+#currentUser, #currentUsersLabel{
+  padding-top: 0;
+  font-weight: bold;
+}
+
 #groupName{
   font-family: 'Lilita One';
   font-weight: 100;
@@ -149,14 +169,9 @@ body {
   color: black;
   font-size: 32px;
 }
-#bodyElement, #groupName, #groupTag, #currentUser, #currentUsersLabel{
-  text-align: center;
-  font-family: 'Comic Sans MS';
-  font-weight: 100;
-}
 #groupTitleDiv{
   padding-top: 20px;
-  width: 100%;
+  width: 99.9%;
   height: 60px;
   background-color: #e1e1e1;
   border-radius: 10px;
@@ -183,7 +198,7 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 7px;
 
-  margin: auto;
+  margin: 10px;
   border: none;
 
   border-radius: 60px;
