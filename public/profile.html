@@ -42,13 +42,25 @@
           var userBio = user.bio
           this.userPic.src = photoURL;
           //this.userInformationPic.src = photoURL;
-          database.ref().child('users' + uid).set({
-            username: displayName,
-            email: email,
-            profile_picture: photoURL,
-            age: userAge,
-            bio: userBio
-          });
+          try{
+            firebase.database().ref().child('users' + uid).set({
+              username: displayName,
+              email: email,
+              profile_picture: photoURL,
+              age: userAge,
+              bio: userBio,
+              userId: uid
+            });
+          }
+          catch(error){
+            firebase.database().ref().child('users' + uid).update({
+              username: displayName,
+              email: email,
+              profile_picture: photoURL,
+              userId: uid
+
+            });
+          }
           user.getIdToken().then(function (accessToken) {
             document.getElementById('sign-in-status').textContent = 'Signed in';
             document.getElementById('sign-in').textContent = 'Sign out';

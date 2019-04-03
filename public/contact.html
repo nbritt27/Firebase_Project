@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <title>Contact</title>
   <link rel="stylesheet" href="resetstyle.css">
-  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="contact.css">
   <link href="https://fonts.googleapis.com/css?family=Lilita+One" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
   <script>
@@ -41,13 +41,25 @@
           var userAge = user.age;
           var userBio = user.bio
           this.userPic.src = photoURL;
-          database.ref().child('users' + uid).set({
-            username: displayName,
-            email: email,
-            profile_picture: photoURL,
-            age: userAge,
-            bio: userBio
-          });
+          try {
+            firebase.database().ref().child('users' + uid).set({
+              username: displayName,
+              email: email,
+              profile_picture: photoURL,
+              age: userAge,
+              bio: userBio,
+              userId: uid
+            });
+          }
+          catch (error) {
+            firebase.database().ref().child('users' + uid).update({
+              username: displayName,
+              email: email,
+              profile_picture: photoURL,
+              userId: uid
+
+            });
+          }
           user.getIdToken().then(function (accessToken) {
             document.getElementById('sign-in-status').textContent = 'Signed in';
             document.getElementById('sign-in').textContent = 'Sign out';
@@ -78,32 +90,91 @@
     window.addEventListener('load', function () {
       initApp()
     });
+    function removeFeedNodes() {
+      while (true) {
+        try {
+          document.body.removeChild(document.getElementById("personDiv"));
+        }
+        catch (error) {
+          console.log("found an error");
+          break;
+        }
+      }
+      /*
+      console.log("Trying to remove feeds");
+      while(true){
+        try {
+          console.log("Existing element: " + document.getElementById("postDiv"));
+          document.body.removeChild(document.getElementById("postDiv"));
+        } catch (error) {
+          break;
+        }
+      }
+      */
+    }
     function addPost() {
 
     }
+    var searching = false;
     function searchProfiles() {
+      removeFeedNodes();
       var userName = document.getElementById("inputNameBox");
       console.log(userName.value);
 
       var leadsRef = firebase.database().ref();
+      searching = true;
       leadsRef.on('value', function (snapshot) {
-        var postContainer = document.createElement('div');
-        postContainer.id = "postContainer";
-        snapshot.forEach(function (childSnapshot) {
-          var childData = childSnapshot.val();
-          try {
-            var currentusername = childData["username"];
-            console.log("Call to sample user returns: " + currentusername);
+        if (searching) {
+
+          var postContainer = document.createElement('div');
+          postContainer.id = "postContainer";
+          snapshot.forEach(function (childSnapshot) {
+            var childData = childSnapshot.val();
+            try {
+              var currentusername = childData["username"];
+              console.log("Call to sample user returns: " + currentusername);
               if (userName.value === currentusername) {
                 console.log("A user was found with the username " + currentusername);
+                var personDiv = document.createElement("div");
+                personDiv.id = "personDiv";
+                var userPicture = document.createElement("img");
+                userPicture.id = "user-feed-pic";
+                userPicture.src = childData["profile_picture"];
+                personDiv.appendChild(userPicture);
+                var usersName = document.createElement("h3");
+                usersName.id = "usersName";
+                usersName.innerHTML = currentusername;
+                var addToFollowingButton = document.createElement("button");
+                addToFollowingButton.id = "addButton";
+                addToFollowingButton.innerHTML = "Add";
+                addToFollowingButton.addEventListener("click", function () { followUser(childData["userId"]) })
+                personDiv.appendChild(usersName);
+                console.log(personDiv);
+                personDiv.appendChild(addToFollowingButton);
+                document.body.appendChild(personDiv);
               }
-            
-          }
-          catch (error) {
 
-          }
-        });
+            }
+            catch (error) {
+              console.log(error);
+            }
+          });
+        }
       });
+
+      searching = false;
+
+    }
+    function followUser(userid) {
+      var postData = {
+        uid: userRef.uid
+      }
+      var postDataFollowing = {
+        uid: userid
+      }
+      firebase.database().ref().child('users' + userid).child("followers").child(userRef.uid).update(postData);
+      firebase.database().ref().child('users' + userRef.uid).child("following").child(userid).update(postDataFollowing);
+
     }
   </script>
 </head>
@@ -133,6 +204,7 @@
   <br>
   <br>
   <div id="inputFieldDiv">
+    <h2>Enter the name of the user you would like to add</h2>
     <input type="text" id="inputNameBox">
     <button type="button" onclick="searchProfiles()">Search</button>
   </div>
