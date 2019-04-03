@@ -4,15 +4,20 @@ body {
 }
 
 #deletePost{
-    top: 10px;
-    right: 50px;
-    background: rgba(255,255,255);
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    padding: 10px 0;
-    font-weight:  bold;
-    cursor:  pointer;
+  position: relative;
+  float: right;
+  right: -70px;
+  bottom: -19px;
+  padding: 10px;
+  background: rgba(255,255,255);
+  text-align: center;
+  font-weight:  bold;
+  cursor:  pointer;
+  border-radius: 25px;
+}
+
+#deletePost:hover{
+  background: #FF2626;
 }
 
 #postContainer{
