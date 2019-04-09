@@ -518,6 +518,8 @@
       var updates = {};
       updates['/groups/' + newPostKey] = postData;
       firebase.database().ref().child('groups/' + newPostKey).update(postData);
+      firebase.database().ref().child('groups/' + newPostKey).child("users").child(userRef.uid).update({userId: userRef.uid, username: userRef.displayName});
+
     }
     function addGroup() {
       if (!addGroupPresent) {
