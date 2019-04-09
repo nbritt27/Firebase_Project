@@ -45,7 +45,7 @@
           var userAge = user.age;
           var userBio = user.bio
           this.userPic.src = photoURL;
-          try{
+          try {
             firebase.database().ref().child('users' + uid).set({
               username: displayName,
               email: email,
@@ -54,14 +54,20 @@
               bio: userBio,
               userId: uid
             });
+            firebase.database().ref().child('users' + uid).child("following").child(uid).set({
+              uid: uid
+            });
           }
-          catch(error){
+          catch (error) {
             firebase.database().ref().child('users' + uid).update({
               username: displayName,
               email: email,
               profile_picture: photoURL,
               userId: uid
 
+            });
+            firebase.database().ref().child('users' + uid).child("following").child(uid).set({
+              uid: uid
             });
           }
 
@@ -139,11 +145,12 @@
         var postContainer = document.createElement('div');
         postContainer.id = "postContainer";
         snapshot.forEach(function (childSnapshot) {
+          var deletingPost = false;
           var childData = childSnapshot.val();
           console.log("childdata userid call returns: " + childData["uid"]);
           console.log("First value in current following is " + following)
           console.log("index call: " + following.indexOf(childData["uid"]));
-          if (following.indexOf(childData["uid"])!=-1) {
+          if (following.indexOf(childData["uid"]) != -1) {
 
             //console.log(childData);
             try {
@@ -219,15 +226,25 @@
             likeButton.innerHTML = ":)";
             var canLike = true;
 
-            if(childData['uid'] === userRef.uid){
+            if (childData['uid'] === userRef.uid) {
               let deletePost = document.createElement("span");
               deletePost.id = 'deletePost';
               deletePost.textContent = "x";
               userInfo.appendChild(deletePost);
+
               deletePost.addEventListener('click', (e) => {
                 e.stopPropagation();
+                deletingPost = true;
+
                 leadsRef.child(childData["postId"]).remove();
                 firebase.database().ref().child("user-posts").child(userRef.uid).child(childData['postId']).remove();
+                try {
+                  firebase.database().ref().child("groups").child(childData["group"]).child("posts").child(childData['postId']).remove();
+
+                }
+                catch (error) {
+                  console.log(error);
+                }
               })
             }
             var commentButton = document.createElement("button");
@@ -329,7 +346,7 @@
             postContainer.prepend(postDiv);
             document.body.appendChild(postContainer);
           }
-          });
+        });
       });
 
     }
@@ -421,15 +438,27 @@
           console.log("The tag name is: " + tagName);
           var leadsRef = firebase.database().ref().child('groups');
           //console.log(leadsRef.val());
+          var canRun = true;
           leadsRef.on('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-              var childData = childSnapshot.val();
-              //console.log("data says a tag is " + childData["tag"]);
-              if (childData["tag"] == tagName) {
-                //console.log ("This is referring to a post with id " + childData["id"]);
-                firebase.database().ref().child('groups/' + childData["id"] + '/posts/' + postKey).update(postInfo);
-              }
-            });
+            if (canRun) {
+              snapshot.forEach(function (childSnapshot) {
+                console.log("running shapshot value for check values");
+                var childData = childSnapshot.val();
+                //console.log("data says a tag is " + childData["tag"]);
+                if (childData["tag"] == tagName) {
+                  //console.log ("This is referring to a post with id " + childData["id"]);
+                  firebase.database().ref().child('groups/' + childData["id"] + '/posts/' + postKey).update(postInfo);
+                  var groupInformation = {
+                    group: childData["id"]
+                  }
+                  firebase.database().ref().child("posts").child(postInfo["postId"]).update(groupInformation);
+                }
+              });
+            }
+            canRun=false;
+
+
+
           });
         }
       }
