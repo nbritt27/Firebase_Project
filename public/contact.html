@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="resetstyle.css">
   <link rel="stylesheet" href="contact.css">
   <link href="https://fonts.googleapis.com/css?family=Lilita+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
   <script>
     // Initialize Firebase
@@ -151,8 +152,9 @@
                 personDiv.appendChild(usersName);
                 var moreInfoButton = document.createElement("button");
                 moreInfoButton.id = "moreInfoButton";
-                moreInfoButton.innerHTML = "More"
-                moreInfoButton.addEventListener("click", function () { showMoreInfo(childData["userId"], personDiv) });
+                moreInfoButton.innerHTML = "More";
+                var modalBody = document.getElementById("modalBody");
+                moreInfoButton.addEventListener("click", function () { showMoreInfo(childData["userId"], modalBody) });
                 moreInfoButton.style.width="17%";
                 console.log(personDiv);
                 personDiv.appendChild(addToFollowingButton);
@@ -185,13 +187,17 @@
                 try {
                   var ageParagraph = document.createElement("p");
                   ageParagraph.id = "ageParagraph";
-                  ageParagraph.innerHTML = ("age: " + childData["age"]);
+                  ageParagraph.innerHTML = ("Age: " + childData["age"]);
                   var bioParagraph = document.createElement("p");
                   bioParagraph.id = "bioParagraph";
-                  bioParagraph.innerHTML = "bio: " + childData["bio"]
+                  bioParagraph.innerHTML = "Bio: " + childData["bio"]
                   divtoappend.appendChild(document.createElement("br"));
                   divtoappend.appendChild(ageParagraph);
                   divtoappend.appendChild(bioParagraph);
+
+                  document.getElementById("myModal").style.display = "block";
+                  var modalHeader = document.getElementById("headerTitle");
+                  modalHeader.innerHTML = usersName.innerHTML;
                 }
                 catch (error) {
                   console.log(error);
@@ -204,7 +210,7 @@
                 showInfo = false;
 
               }
-              console.log("chidldata in the show more info function " + childData);
+              console.log("childdata in the show more info function " + childData);
 
             }
             catch (error) {
@@ -251,17 +257,40 @@
       </li>
     </ul>
   </nav>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
   <div id="inputFieldDiv">
-    <h2>Enter the name of the user you would like to add</h2>
+    <h2 style="margin: 10px 1%">Enter the name of the user you would like to add</h2>
     <input type="text" id="inputNameBox">
-    <button type="button" onclick="searchProfiles()">Search</button>
+    <button id="searchButton" type="button" onclick="searchProfiles()">Search</button>
   </div>
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2 id="headerTitle">User</h2>
+      </div>
+      <div id="modalBody" class="modal-body">
+        <h3 id="titleLabel"></h3>
+        <h3 id="bodyLabel"></h3>
+      </div>
+    </div>
 </body>
+
+<script>
+  var modal = document.getElementById('myModal');
+  var span = document.getElementsByClassName("close")[0];
+
+  span.onclick = function () {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
 
 </html>
