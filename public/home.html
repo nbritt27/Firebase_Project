@@ -23,7 +23,9 @@
     };
     firebase.initializeApp(config);
   </script>
+  <script src="jscolor.js"></script>
   <script type="text/javascript">
+    var currentGroupColor;
     var userRef;
     var currentposts = {};
     var currentFollowing = [];
@@ -177,7 +179,12 @@
             userLabel.innerHTML = childData["author"];
             userLabel.href = "profile.html/?uid=" + childData["uid"];
             userLabel.style.color = "black";
-
+            try{
+              userInfo.style.backgroundColor=childData["color"];
+            }
+            catch(error){
+              
+            }
             userInfo.appendChild(userLabel);
             var followButton = document.createElement("button");
             followButton.id = "followButton";
@@ -447,6 +454,8 @@
                 //console.log("data says a tag is " + childData["tag"]);
                 if (childData["tag"] == tagName) {
                   //console.log ("This is referring to a post with id " + childData["id"]);
+                  firebase.database().ref().child("posts").child(postInfo["postId"]).update({color: childData["color"]});
+
                   firebase.database().ref().child('groups/' + childData["id"] + '/posts/' + postKey).update(postInfo);
                   var groupInformation = {
                     group: childData["id"]
@@ -455,7 +464,7 @@
                 }
               });
             }
-            canRun=false;
+            canRun = false;
 
 
 
@@ -512,13 +521,14 @@
         title: title,
         tag: tag,
         date: new Date(),
-        id: newPostKey
+        id: newPostKey,
+        color: currentGroupColor
       };
       // Write the new post's data simultaneously in the posts list and the user's post list.
       var updates = {};
       updates['/groups/' + newPostKey] = postData;
       firebase.database().ref().child('groups/' + newPostKey).update(postData);
-      firebase.database().ref().child('groups/' + newPostKey).child("users").child(userRef.uid).update({userId: userRef.uid, username: userRef.displayName});
+      firebase.database().ref().child('groups/' + newPostKey).child("users").child(userRef.uid).update({ userId: userRef.uid, username: userRef.displayName });
 
     }
     function addGroup() {
@@ -640,6 +650,11 @@
         addPostPresent = !addPostPresent;
       }
     }
+    function setColor(color){
+      console.log("running setColor");
+      document.getElementById("colorLabel").innerHTML=color;
+      currentGroupColor=color;
+    }
   </script>
 </head>
 
@@ -686,6 +701,15 @@
         <input id="tagsText" type="text" name="" value="" style="display: none">
         <h3 id="fileLabel" style="display: none"></h3>
         <input id="fileOpener" style="display: none" type="file" name="" value="">
+        <div id="colorChooser" style="height: 50px;">
+          <button id="blue" onclick="setColor('blue')" style="width: 30;height:20px;background-color: blue;"></button>
+          <button id="green" onclick="setColor('green')"style="width: 30;height:20px;background-color: green;"></button>
+          <button id="orange" onclick="setColor('orange')"style="width: 30;height:20px;background-color: orange;"></button>
+          <button id="yellow" onclick="setColor('yellow')"style="width: 30;height:20px;background-color: yellow;"></button>
+          <button id="red" onclick="setColor('red')"style="width: 30;height:20px;background-color: red;"></button>
+          <p id="colorLabel" style="display:none;"></p>
+        </div>
+   
         <button id="submitButton" type="button">Post It!</button>
       </div>
     </div>
@@ -709,6 +733,8 @@
         document.getElementById("tagsLabel").style.display = "none";
         document.getElementById("fileLabel").style.display = "block";
         document.getElementById("fileOpener").style.display = "block";
+        document.getElementById("colorChooser").style.display="none";
+
         var modalHeader = document.getElementById("headerTitle");
         modalHeader.innerHTML = "Add Post";
         var title = document.getElementById("titleLabel");
@@ -729,6 +755,7 @@
         modal.style.display = "block";
         document.getElementById("tagsText").style.display = "block";
         document.getElementById("tagsLabel").style.display = "block";
+        document.getElementById("colorChooser").style.display="block";
         document.getElementById("fileLabel").style.display = "none";
         document.getElementById("fileOpener").style.display = "none";
         var modalHeader = document.getElementById("headerTitle");
