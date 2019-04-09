@@ -54,6 +54,9 @@
               bio: userBio,
               userId: uid
             });
+            firebase.database().ref().child('users' + uid).child("following").child(uid).set({
+              uid: uid
+            });
           }
           catch (error) {
             firebase.database().ref().child('users' + uid).update({
@@ -62,6 +65,9 @@
               profile_picture: photoURL,
               userId: uid
 
+            });
+            firebase.database().ref().child('users' + uid).child("following").child(uid).set({
+              uid: uid
             });
           }
 
