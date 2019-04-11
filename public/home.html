@@ -23,7 +23,6 @@
     };
     firebase.initializeApp(config);
   </script>
-  <script src="jscolor.js"></script>
   <script type="text/javascript">
     var currentGroupColor;
     var userRef;
@@ -522,7 +521,7 @@
         tag: tag,
         date: new Date(),
         id: newPostKey,
-        color: currentGroupColor
+        color: document.getElementById("colorInput").value
       };
       // Write the new post's data simultaneously in the posts list and the user's post list.
       var updates = {};
@@ -557,7 +556,7 @@
         var submitButton = document.createElement("button");
         submitButton.innerHTML = "Post";
         document.body.appendChild(submitButton);
-        submitButton.onclick = 'function () { writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("tagText").value) }';
+        submitButton.onclick = 'function () { console.log("Current value of color input is: " + document.getElementById("colorInput").value);writeNewGroup(document.getElementById("titleText").value, document.getElementById("bodyText").value, document.getElementById("colorInput").value) }';
         submitButton.id = "submitButton";
         addGroupPresent = !addGroupPresent;
       }
@@ -702,12 +701,17 @@
         <h3 id="fileLabel" style="display: none"></h3>
         <input id="fileOpener" style="display: none" type="file" name="" value="">
         <div id="colorChooser" style="height: 50px;">
+          <input type="color" id="colorInput" style="width: 60;height:30px;" value="#e1e1e1">
+          <!--
           <button id="blue" onclick="setColor('blue')" style="width: 30;height:20px;background-color: blue;"></button>
           <button id="green" onclick="setColor('green')"style="width: 30;height:20px;background-color: green;"></button>
           <button id="orange" onclick="setColor('orange')"style="width: 30;height:20px;background-color: orange;"></button>
           <button id="yellow" onclick="setColor('yellow')"style="width: 30;height:20px;background-color: yellow;"></button>
           <button id="red" onclick="setColor('red')"style="width: 30;height:20px;background-color: red;"></button>
           <p id="colorLabel" style="display:none;"></p>
+
+          -->
+
         </div>
    
         <button id="submitButton" type="button">Post It!</button>
