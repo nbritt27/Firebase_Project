@@ -120,12 +120,11 @@
     function searchProfiles() {
       removeFeedNodes();
       var userName = document.getElementById("inputNameBox");
-      console.log(userName.value);
 
       var leadsRef = firebase.database().ref();
       searching = true;
       leadsRef.on('value', function (snapshot) {
-        if (searching) {
+        if (searching = true) {
 
           var postContainer = document.createElement('div');
           postContainer.id = "postContainer";
@@ -156,7 +155,6 @@
                 var modalBody = document.getElementById("modalBody");
                 moreInfoButton.addEventListener("click", function () { showMoreInfo(childData["userId"], modalBody) });
                 moreInfoButton.style.width="17%";
-                console.log(personDiv);
                 personDiv.appendChild(addToFollowingButton);
                 personDiv.appendChild(moreInfoButton);
                 document.body.appendChild(personDiv);
@@ -173,6 +171,8 @@
       searching = false;
 
     }
+
+    var infoDisplayed = false;
     function showMoreInfo(userid, divtoappend) {
       console.log("running showMoreInfo");
       var showInfo = true;
@@ -185,19 +185,22 @@
             try {
               if (childData["userId"] === userid) {
                 try {
-                  var ageParagraph = document.createElement("p");
-                  ageParagraph.id = "ageParagraph";
-                  ageParagraph.innerHTML = ("Age: " + childData["age"]);
-                  var bioParagraph = document.createElement("p");
-                  bioParagraph.id = "bioParagraph";
-                  bioParagraph.innerHTML = "Bio: " + childData["bio"]
-                  divtoappend.appendChild(document.createElement("br"));
-                  divtoappend.appendChild(ageParagraph);
-                  divtoappend.appendChild(bioParagraph);
+                  if(!infoDisplayed){
+                    var ageParagraph = document.createElement("p");
+                    ageParagraph.id = "ageParagraph";
+                    ageParagraph.innerHTML = ("Age: " + childData["age"]);
+                    var bioParagraph = document.createElement("p");
+                    bioParagraph.id = "bioParagraph";
+                    bioParagraph.innerHTML = "Bio: " + childData["bio"]
+                    divtoappend.appendChild(document.createElement("br"));
+                    divtoappend.appendChild(ageParagraph);
+                    divtoappend.appendChild(bioParagraph);
+                  }
 
                   document.getElementById("myModal").style.display = "block";
                   var modalHeader = document.getElementById("headerTitle");
                   modalHeader.innerHTML = usersName.innerHTML;
+                  infoDisplayed = true;
                 }
                 catch (error) {
                   console.log(error);
